@@ -7,9 +7,12 @@ import Stack from '@mui/material/Stack';
 import { FormGroup, FormControlLabel, Checkbox } from "@mui/material";
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import SubmitOptionsButton from '../components/SubmitOptionsBtn';
+import axios from 'axios';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
+
 
 
 function SearchPage() {
@@ -34,11 +37,54 @@ function SearchPage() {
 
     const [option, setOption] = useState(true);
 
-  // define statis for ingredients to exclude
+  // define state for ingredients to exclude
 
     const [excludedValues, setExcludedValues] = useState([]);
 
+  // define state for Diet Type
 
+    const [dietType, setDietType] = useState([]);
+
+    // create click handler function that triggers API call
+
+    const clickHandler = () => {
+      // TODO: build api call url parameters based on user input
+
+      let $selectedValues = '&query=';
+     
+      if(selectedValues===null||selectedValues.length===0) {
+
+        $selectedValues = `&query=chicken,spinach,cream`;
+
+      } else {
+
+        selectedValues.forEach((arr, index) => {
+          $selectedValues += index === selectedValues.length -1 ? `${arr.ingredients}` : `${arr.ingredients},`
+
+        })
+      }
+
+      // test output
+      console.log($selectedValues)
+
+      // let cuisine = ``;
+      // let mealType = ``;
+      // let intolerance = ``;
+      // let option = ``;
+      // let excludedValues = ``;
+      // let dietType = ``;
+
+        const APIkey = `apiKey=be7afc61d90741a1a46cbf724312a257`;
+        const searchURL = `https://api.spoonacular.com/recipes/complexSearch?addRecipeInformation=true&addRecipeNutrition=true&`;
+
+        // API get request using Axios
+
+        axios.get(`${searchURL}${APIkey}${$selectedValues}`)
+        .then(response => {console.log(response)}); //test
+      
+  }
+
+  
   return (
     <div>
       <div className='header'>
@@ -130,7 +176,7 @@ function SearchPage() {
 
                     onChange={(event, newValue) =>{
                       event.preventDefault();
-                      setMealType(newValue);
+                      setDietType(newValue);
                     }}
 
                     sx={{ width: 300 }}
@@ -212,10 +258,10 @@ function SearchPage() {
 
                         )}
                 />
-
                 </Stack>
           </div>
         </div>
+        <SubmitOptionsButton clickHandler={clickHandler}/>
       </div>
       <div className='recipes-container'>
 
