@@ -19,68 +19,128 @@ function SearchPage() {
 
   // define state for ingredients selection
 
-    const [selectedValues, setSelectedValues] = useState([]);
+const [selectedValues, setSelectedValues] = useState([]);
 
   // define state for cuisine selection
   
-    const [cuisine, setCuisine] = useState([]);
+const [cuisine, setCuisine] = useState([]);
 
   // define state for meal type
 
-    const [mealType, setMealType] = useState([]);
+const [mealType, setMealType] = useState([]);
 
   // define state for intolerances
 
-    const [intolerance, setIntolerance] = useState([]);
+const [intolerance, setIntolerance] = useState([]);
 
   // define state for exclude cuisine checkbox
 
-    const [option, setOption] = useState(true);
+const [option, setOption] = useState(true);
 
   // define state for ingredients to exclude
 
-    const [excludedValues, setExcludedValues] = useState([]);
+const [excludedValues, setExcludedValues] = useState([]);
 
   // define state for Diet Type
 
-    const [dietType, setDietType] = useState([]);
+const [dietType, setDietType] = useState([]);
 
-    // create click handler function that triggers API call
 
-    const clickHandler = () => {
-      // TODO: build api call url parameters based on user input
 
-      let $selectedValues = '&query=';
+// create click handler function that triggers API call
+
+const clickHandler = () => {
+
+// TODO: build api call url parameters based on user input
+
+let $selectedValues = '&query=';
      
-      if(selectedValues===null||selectedValues.length===0) {
+if(selectedValues===null||selectedValues.length===0) {
 
-        $selectedValues = `&query=chicken,spinach,cream`;
+  $selectedValues = `&query=chicken,spinach,cream`;
 
-      } else {
+} else {
 
-        selectedValues.forEach((arr, index) => {
-          $selectedValues += index === selectedValues.length -1 ? `${arr.ingredients}` : `${arr.ingredients},`
+  selectedValues.forEach((arr, index) => {
+    $selectedValues += index === selectedValues.length -1 ? `${arr.ingredients}` : `${arr.ingredients},`
 
-        })
-      }
+  })
 
-      // test output
-      console.log($selectedValues)
+};
 
-      // let cuisine = ``;
-      // let mealType = ``;
-      // let intolerance = ``;
-      // let option = ``;
-      // let excludedValues = ``;
-      // let dietType = ``;
+// TODO: change input to multi selectors
 
-        const APIkey = `apiKey=be7afc61d90741a1a46cbf724312a257`;
-        const searchURL = `https://api.spoonacular.com/recipes/complexSearch?addRecipeInformation=true&addRecipeNutrition=true&`;
+// let $cuisine = '&cuisine=';
+     
+// if(cuisine===null||cuisine.length===0) {
 
-        // API get request using Axios
+//   $cuisine = ``;
 
-        axios.get(`${searchURL}${APIkey}${$selectedValues}`)
-        .then(response => {console.log(response)}); //test
+// } else {
+
+//   cuisine.forEach((arr, index) => {
+//     $cuisine += index === cuisine.length -1 ? `${arr.cuisine}` : `${arr.cuisine},`
+
+//   })
+// }
+
+let $cuisine = '&cuisine=';
+      
+cuisine === null ? $cuisine = '' : $cuisine = `&cuisine=${cuisine.cuisine}`
+
+
+let $mealType = '&type=';
+      
+mealType === null ? $mealType = '' : $mealType = `&type=${mealType.type}`
+
+
+let $intolerance = '&intolerances=';
+     
+if(intolerance===null||intolerance.length===0) {
+
+$intolerance = ``;
+
+} else {
+
+intolerance.forEach((arr, index) => {
+    $intolerance += index === intolerance.length -1 ? `${arr.type}` : `${arr.type},`
+
+})
+
+};
+
+
+let $excludedValues = '&excludeIngredients=';
+     
+if(excludedValues===null||excludedValues.length===0) {
+
+$excludedValues = ``;
+
+} else {
+
+excludedValues.forEach((arr, index) => {
+    $excludedValues += index === excludedValues.length -1 ? `${arr.ingredients}` : `${arr.ingredients},`
+
+})
+
+};
+
+let $dietType = '&diet=';
+      
+dietType === null ? $dietType = '' : $dietType = `&diet=${dietType.type}`
+
+
+// test output
+console.log($selectedValues, $cuisine, $mealType,$intolerance,$excludedValues,$dietType)
+
+
+const APIkey = `apiKey=be7afc61d90741a1a46cbf724312a257`;
+const searchURL = `https://api.spoonacular.com/recipes/complexSearch?addRecipeInformation=true&addRecipeNutrition=true&`;
+
+// API get request using Axios
+
+// axios.get(`${searchURL}${APIkey}${$selectedValues}${$cuisine}${$mealType}${$intolerance}${$excludedValues}${$dietType}`)
+// .then(response => {console.log(response)}); //test
       
   }
 
