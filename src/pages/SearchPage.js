@@ -4,7 +4,7 @@ import { useState } from "react";
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
-import { Checkbox } from "@mui/material";
+import { FormGroup, FormControlLabel, Checkbox } from "@mui/material";
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
@@ -30,7 +30,9 @@ function SearchPage() {
 
     const [intolerance, setIntolerance] = useState([]);
 
-  
+  // define state for exclude cuisine checkbox
+
+    const [option, setOption] = useState(true);
 
 
   return (
@@ -166,6 +168,21 @@ function SearchPage() {
                         <TextField {...params} label="Do you have any intolerances?" placeholder="Intolerances" />
                       )}
                     />
+
+                    <FormGroup>
+
+                      <FormControlLabel 
+
+                            control={<Checkbox defaultChecked />} 
+                            label="Any ingredients you want to exclude?"
+                            onChange={(event, newvalue) => {
+                                event.preventDefault();
+                                setOption(newvalue);
+                            }}
+                        
+                        />
+
+                    </FormGroup>
 
                 </Stack>
           </div>
