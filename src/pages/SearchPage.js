@@ -34,6 +34,10 @@ function SearchPage() {
 
     const [option, setOption] = useState(true);
 
+  // define statis for ingredients to exclude
+
+    const [excludedValues, setExcludedValues] = useState([]);
+
 
   return (
     <div>
@@ -183,6 +187,31 @@ function SearchPage() {
                         />
 
                     </FormGroup>
+
+                    {/* food to exclude */}
+
+                    <Autocomplete
+                        multiple
+                        id="tags-outlined"
+                        options={top1000ingredients}
+                        getOptionLabel={(option) => option.ingredients}
+                                filterSelectedOptions
+
+                        onChange={(event, newValue) => {
+                            event.preventDefault();
+                            setExcludedValues(newValue);
+                          }}
+
+                        renderInput={(params) => (
+
+                          <TextField
+                            {...params}
+                            label="Ingredients to exclude"
+                            placeholder="do not include"
+                          />
+
+                        )}
+                />
 
                 </Stack>
           </div>
