@@ -4,6 +4,12 @@ import { useState } from "react";
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
+import { Checkbox } from "@mui/material";
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
+
+const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
+const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 
 function SearchPage() {
@@ -17,8 +23,12 @@ function SearchPage() {
     const [cuisine, setCuisine] = useState([]);
 
   // define state for meal type
-  
+
     const [mealType, setMealType] = useState([]);
+
+  // define state for intolerances
+
+    const [intolerance, setIntolerance] = useState([]);
 
 
   return (
@@ -101,6 +111,37 @@ function SearchPage() {
                   sx={{ width: 300 }}
                   renderInput={(params) => <TextField {...params} label="Meal type" />}
                 />
+
+                {/* intolerances */}
+
+                <Autocomplete
+                      multiple
+                      id="checkboxes-tags-demo"
+                      options={intolerances}
+                      disableCloseOnSelect
+                      getOptionLabel={(option) => option.type}
+
+                      onChange={(event, newValue) => {
+                        event.preventDefault();
+                        setIntolerance(newValue);
+                      }}
+
+                      renderOption={(props, option, { selected }) => (
+                        <li {...props}>
+                          <Checkbox
+                            icon={icon}
+                            checkedIcon={checkedIcon}
+                            style={{ marginRight: 8 }}
+                            checked={selected}
+                          />
+                          {option.type}
+                        </li>
+                      )}
+                      style={{ width: 500 }}
+                      renderInput={(params) => (
+                        <TextField {...params} label="Do you have any intolerances?" placeholder="Intolerances" />
+                      )}
+                    />
 
                 </Stack>
           </div>
@@ -1181,6 +1222,25 @@ const meal = [
   { index: 12, type: "fingerfood" },
   { index: 13, type: "snack" },
   { index: 14, type: "drink" },
+
+];
+
+// intolerances
+
+const intolerances = [
+
+  { index: 1, type: "Dairy" },
+  { index: 2, type: "Egg" },
+  { index: 3, type: "Gluten" },
+  { index: 4, type: "Grain" },
+  { index: 5, type: "Peanut" },
+  { index: 6, type: "Seafood" },
+  { index: 7, type: "Sesame" },
+  { index: 8, type: "Shellfish" },
+  { index: 9, type: "Soy" },
+  { index: 10, type: "Sulfite" },
+  { index: 11, type: "Tree Nut" },
+  { index: 12, type: "Wheat" },    
 
 ];
 
