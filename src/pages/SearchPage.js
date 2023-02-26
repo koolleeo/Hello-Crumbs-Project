@@ -16,6 +16,10 @@ function SearchPage() {
   
     const [cuisine, setCuisine] = useState([]);
 
+  // define state for meal type
+  
+    const [mealType, setMealType] = useState([]);
+
 
   return (
     <div>
@@ -45,17 +49,21 @@ function SearchPage() {
                   options={top1000ingredients} 
                   getOptionLabel={(option) => option.ingredients}
                   filterSelectedOptions
+
                     onChange={(event, newValue) => {
                         event.preventDefault();
                         setSelectedValues(newValue);
                         ;
                       }}
+
                   renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Ingredients selection"
-                      placeholder="Favorites"
-                    />
+
+                      <TextField
+                        {...params}
+                        label="Ingredients selection"
+                        placeholder="Favorites"
+                      />
+
                   )}
 
                 />
@@ -67,12 +75,31 @@ function SearchPage() {
                   id="combo-box-demo"
                   options={topCuisine}
                   getOptionLabel={(option) => option.cuisine}
+
                   onChange={(event, newValue) =>{
                     event.preventDefault();
                     setCuisine(newValue);
                   }}
+
                   sx={{ width: 300 }}
                   renderInput={(params) => <TextField {...params} label="Cuisine" />}
+                />
+
+                {/* meal type */}
+
+                <Autocomplete
+                  disablePortal
+                  id="combo-box"
+                  options={meal}
+                  getOptionLabel={(option) => option.type}
+
+                  onChange={(event, newValue) =>{
+                    event.preventDefault();
+                    setMealType(newValue);
+                  }}
+
+                  sx={{ width: 300 }}
+                  renderInput={(params) => <TextField {...params} label="Meal type" />}
                 />
 
                 </Stack>
@@ -1134,6 +1161,26 @@ const topCuisine = [
   { index: 25, cuisine: "Thai" },
   { index: 26, cuisine: "Vietnamese" },
   
+];
+
+// meal type options
+
+const meal = [
+
+  { index: 1, type: "main course" },
+  { index: 2, type: "side dish" },
+  { index: 3, type: "dessert" },
+  { index: 4, type: "appetizer" },
+  { index: 5, type: "salad" },
+  { index: 6, type: "bread" },
+  { index: 7, type: "breakfast" },
+  { index: 8, type: "soup" },
+  { index: 9, type: "beverage" },
+  { index: 10, type: "sauce" },
+  { index: 11, type: "marinade" },
+  { index: 12, type: "fingerfood" },
+  { index: 13, type: "snack" },
+  { index: 14, type: "drink" },
 
 ];
 
