@@ -57,7 +57,9 @@ const [switchBy, setSwitchBy] = useState([]);
 
 const clickHandler = () => {
 
-// TODO: build api call url parameters based on user input
+// build api call url parameters based on user input
+
+// ingredients selector
 
 let $selectedValues = '&query=';
      
@@ -74,31 +76,29 @@ if(selectedValues===null||selectedValues.length===0) {
 
 };
 
-// TODO: change input to multi selectors
-
-// let $cuisine = '&cuisine=';
-     
-// if(cuisine===null||cuisine.length===0) {
-
-//   $cuisine = ``;
-
-// } else {
-
-//   cuisine.forEach((arr, index) => {
-//     $cuisine += index === cuisine.length -1 ? `${arr.cuisine}` : `${arr.cuisine},`
-
-//   })
-// }
+// cuisine selector
 
 let $cuisine = '&cuisine=';
-      
-cuisine === null ? $cuisine = '' : $cuisine = `&cuisine=${cuisine.cuisine}`
+     
+if(cuisine===null||cuisine.length===0) {
 
+  $cuisine = ``;
+
+} else {
+
+  cuisine.forEach((arr, index) => {
+    $cuisine += index === cuisine.length -1 ? `${arr.cuisine}` : `${arr.cuisine},`
+
+  })
+}
+
+// meal type selector
 
 let $mealType = '&type=';
       
 mealType === null ? $mealType = '' : $mealType = `&type=${mealType.type}`
 
+// intolerances selector
 
 let $intolerance = '&intolerances=';
      
@@ -115,6 +115,7 @@ intolerance.forEach((arr, index) => {
 
 };
 
+// excluded ingredients selector
 
 let $excludedValues = '&excludeIngredients=';
      
@@ -131,10 +132,21 @@ excludedValues.forEach((arr, index) => {
 
 };
 
-let $dietType = '&diet=';
-      
-dietType === null ? $dietType = '' : $dietType = `&diet=${dietType.type}`
+// diet selector
 
+let $dietType = '&diet=';
+     
+if(dietType===null||dietType.length===0) {
+
+  $dietType = ``;
+
+} else {
+
+  dietType.forEach((arr, index) => {
+    $dietType += index === dietType.length -1 ? `${arr.type}` : `${arr.type},`
+
+  })
+}
 
 // test output
 console.log($selectedValues, $cuisine, $mealType,$intolerance,$excludedValues,$dietType, switchBy)
@@ -192,17 +204,33 @@ const searchURL = `https://api.spoonacular.com/recipes/complexSearch?addRecipeIn
               {/* cuisine */}
 
               <Autocomplete
-                disablePortal
-                id="combo-box-demo"
+                multiple
+                id="checkboxes-tags-demo"
                 options={topCuisine}
+                disableCloseOnSelect
                 getOptionLabel={(option) => option.cuisine}
                 onChange={(event, newValue) => {
                   event.preventDefault();
                   setCuisine(newValue);
                 }}
-                sx={{ width: 300 }}
+                renderOption={(props, option, { selected }) => (
+                  <li {...props}>
+                    <Checkbox
+                      icon={icon}
+                      checkedIcon={checkedIcon}
+                      style={{ marginRight: 8 }}
+                      checked={selected}
+                    />
+                    {option.cuisine}
+                  </li>
+                )}
+                style={{ width: 500 }}
                 renderInput={(params) => (
-                  <TextField {...params} label="Cuisine" />
+                  <TextField
+                    {...params}
+                    label="Cuisine Selections"
+                    placeholder="Cuisine Selections"
+                  />
                 )}
               />
 
@@ -226,17 +254,33 @@ const searchURL = `https://api.spoonacular.com/recipes/complexSearch?addRecipeIn
               {/* diet definitions */}
 
               <Autocomplete
-                disablePortal
-                id="combo-box"
+                multiple
+                id="checkboxes-tags-demo"
                 options={dietDefinition}
+                disableCloseOnSelect
                 getOptionLabel={(option) => option.type}
                 onChange={(event, newValue) => {
                   event.preventDefault();
-                  setMealType(newValue);
+                  setDietType(newValue);
                 }}
-                sx={{ width: 300 }}
+                renderOption={(props, option, { selected }) => (
+                  <li {...props}>
+                    <Checkbox
+                      icon={icon}
+                      checkedIcon={checkedIcon}
+                      style={{ marginRight: 8 }}
+                      checked={selected}
+                    />
+                    {option.type}
+                  </li>
+                )}
+                style={{ width: 500 }}
                 renderInput={(params) => (
-                  <TextField {...params} label="Diet Definition" />
+                  <TextField
+                    {...params}
+                    label="Diet Selections"
+                    placeholder="Diet Selections"
+                  />
                 )}
               />
 
@@ -283,7 +327,7 @@ const searchURL = `https://api.spoonacular.com/recipes/complexSearch?addRecipeIn
                   }}
                 />
               </FormGroup>
-               
+
                     {/* food to exclude */}
 
                     <Autocomplete
