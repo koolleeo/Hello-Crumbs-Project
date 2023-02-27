@@ -137,7 +137,7 @@ dietType === null ? $dietType = '' : $dietType = `&diet=${dietType.type}`
 
 
 // test output
-console.log($selectedValues, $cuisine, $mealType,$intolerance,$excludedValues,$dietType)
+console.log($selectedValues, $cuisine, $mealType,$intolerance,$excludedValues,$dietType, switchBy)
 
 
 const APIkey = `apiKey=be7afc61d90741a1a46cbf724312a257`;
@@ -283,75 +283,7 @@ const searchURL = `https://api.spoonacular.com/recipes/complexSearch?addRecipeIn
                   }}
                 />
               </FormGroup>
-
-                  {/* diet definitions */}
-
-                  <Autocomplete
-                    disablePortal
-                    id="combo-box"
-                    options={dietDefinition}
-                    getOptionLabel={(option) => option.type}
-
-                    onChange={(event, newValue) =>{
-                      event.preventDefault();
-                      setDietType(newValue);
-                    }}
-
-                    sx={{ width: 300 }}
-                    renderInput={(params) => 
-                      
-                    <TextField {...params} label="Diet Definition" />
-
-                    }
-
-                  />
-
-                {/* intolerances */}
-
-                <Autocomplete
-                      multiple
-                      id="checkboxes-tags-demo"
-                      options={intolerances}
-                      disableCloseOnSelect
-                      getOptionLabel={(option) => option.type}
-
-                      onChange={(event, newValue) => {
-                        event.preventDefault();
-                        setIntolerance(newValue);
-                      }}
-
-                      renderOption={(props, option, { selected }) => (
-                        <li {...props}>
-                          <Checkbox
-                            icon={icon}
-                            checkedIcon={checkedIcon}
-                            style={{ marginRight: 8 }}
-                            checked={selected}
-                          />
-                          {option.type}
-                        </li>
-                      )}
-                      style={{ width: 500 }}
-                      renderInput={(params) => (
-                        <TextField {...params} label="Do you have any intolerances?" placeholder="Intolerances" />
-                      )}
-                    />
-
-                    <FormGroup>
-
-                      <FormControlLabel 
-
-                            control={<Checkbox defaultChecked />} 
-                            label="Any ingredients you want to exclude?"
-                            onChange={(event, newvalue) => {
-                                event.preventDefault();
-                                setOption(newvalue);
-                            }}
-                        
-                        />
-
-                    </FormGroup>
-
+               
                     {/* food to exclude */}
 
                     <Autocomplete
@@ -399,17 +331,20 @@ const searchURL = `https://api.spoonacular.com/recipes/complexSearch?addRecipeIn
                     }
 
                   />
-                  <FormGroup>
+  <FormGroup>
+  <FormControlLabel
+    control={
+      <Switch
+        defaultChecked
+        onChange={(event, newValue) => {
+          setSwitchBy(newValue);
+        }}
+      />
+    }
+    label="Asc / Desc"
+  />
+</FormGroup>
 
-                    <FormControlLabel control={<Switch defaultChecked 
-                                                        onChange={(event, newValue) => {
-                                                          event.preventDefault();
-                                                          setSwitchBy(newValue);
-                                                        }}
-                                                  />
-                                              } label="Asc / Desc" />
-  
-                  </FormGroup>
 
                 </Stack>
 
