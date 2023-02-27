@@ -96,7 +96,7 @@ if(cuisine===null||cuisine.length===0) {
 
 let $mealType = '&type=';
       
-mealType === null ? $mealType = '' : $mealType = `&type=${mealType.type}`
+mealType.length === 0 ? $mealType = '' : $mealType = `${$mealType}${mealType.type}`
 
 // intolerances selector
 
@@ -148,8 +148,21 @@ if(dietType===null||dietType.length===0) {
   })
 }
 
+// sort option
+
+let $sortBy = '&sort=';
+      
+switchBy.length === 0 ? $sortBy = `` : $sortBy = `${$sortBy}`
+
+// sort direction
+
+let $switchBy = '&sortDirection=';
+      
+switchBy.length === 0 || switchBy === true ? $switchBy = `${$switchBy}desc` : $switchBy = `${$switchBy}asc`
+
+
 // test output
-console.log($selectedValues, $cuisine, $mealType,$intolerance,$excludedValues,$dietType, switchBy)
+console.log($selectedValues, $cuisine, $mealType,$intolerance,$excludedValues,$dietType, switchBy, $switchBy, sortBy, mealType, $sortBy)
 
 
 const APIkey = `apiKey=be7afc61d90741a1a46cbf724312a257`;
