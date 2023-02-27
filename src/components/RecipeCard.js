@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-function RecipeCard({ image, name, id }) {
+function RecipeCard({ image, name, ingredients, id }) {
   const navigate = useNavigate();
   return (
     <div
@@ -11,7 +11,8 @@ function RecipeCard({ image, name, id }) {
       }}
     >
       <div style={{ backgroundImage: `url(${image})` }} className="bgImage" />
-      <h1> {name} </h1>
+      <h3> {name} </h3>
+      <p> Ingredients: {ingredients} </p>
     </div>
   );
 }

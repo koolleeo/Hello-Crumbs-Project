@@ -1,7 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
-import { RecipeList } from "../helpers/RecipeList";
+import "../styles/SearchPage.css";
 
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
@@ -197,25 +196,6 @@ function SearchPage() {
         </div>
       </div>
 
-  function RecipeDisplay() {
-  // const {id} = useParams();
-  // const project = RecipeList[id];
-  return (
-    <div className="recipe">
-      <h1> {recipe.name} </h1>
-      <img src={recipe.image} />
-      <p>
-        <b>Ingredients:</b>
-        {recipe.ingredients}
-      </p>
-      <a href="https://github.com/ladycosy?tab=repositories" target="_blank">
-        <GitHubIcon />
-      </a>
-      </div>
-  );
-}
-
-
       <div className="recipes-container">
         <h3>What can you make?</h3>
         <div className="recipes">
@@ -235,7 +215,7 @@ function SearchPage() {
       </div>
     </div>
   );
-    }
+}
 
 // Top 1000 ingredients
 

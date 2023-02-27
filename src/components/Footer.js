@@ -1,9 +1,9 @@
-import React from 'react';
-import '../App.css'
+import React from "react";
+import "../styles/Footer.css";
 function Footer() {
   return (
-      <div className='footer'>
-          <p>Copyright 2023</p>
+    <div className="footer">
+      <p>Copyright 2023</p>
     </div>
   );
 }

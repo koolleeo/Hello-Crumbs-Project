@@ -5,22 +5,22 @@ import Picture4 from "../assets/Picture4.jpg";
 
 export const RecipeList = [
   {
-    name: "Recipe1",
+    name: "Pizza",
     image: Picture1,
     ingredients: "salt, bread, potatoes, butter",
   },
   {
-    name: "Recipe2",
+    name: "French Fries",
     image: Picture2,
     ingredients: "salt, bread, potatoes, butter",
   },
   {
-    name: "Recipe3",
+    name: "Pasta",
     image: Picture3,
     ingredients: "salt, bread, potatoes, butter",
   },
   {
-    name: "Recipe4",
+    name: "Nuddles",
     image: Picture4,
     ingredients: "salt, bread, potatoes, butter",
   },
