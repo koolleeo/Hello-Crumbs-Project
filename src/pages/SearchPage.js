@@ -2,11 +2,10 @@ import React from "react";
 import { useState } from "react";
 import "../styles/SearchPage.css";
 
-import Autocomplete from "@mui/material/Autocomplete";
-import TextField from "@mui/material/TextField";
-import Stack from "@mui/material/Stack";
-import { FormGroup, FormControlLabel, Checkbox } from "@mui/material";
-
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
+import Stack from '@mui/material/Stack';
+import { FormGroup, FormControlLabel, Checkbox, Switch } from "@mui/material";
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import SubmitOptionsButton from '../components/SubmitOptionsBtn';
@@ -45,6 +44,13 @@ const [excludedValues, setExcludedValues] = useState([]);
 
 const [dietType, setDietType] = useState([]);
 
+// define state for filter by options
+
+const [sortBy, setSortBy] = useState([]);
+
+// define state for switch
+
+const [switchBy, setSwitchBy] = useState([]);
 
 
 // create click handler function that triggers API call
@@ -276,7 +282,7 @@ const searchURL = `https://api.spoonacular.com/recipes/complexSearch?addRecipeIn
                     setOption(newvalue);
                   }}
                 />
-
+              </FormGroup>
 
                   {/* diet definitions */}
 
@@ -370,6 +376,41 @@ const searchURL = `https://api.spoonacular.com/recipes/complexSearch?addRecipeIn
 
                         )}
                 />
+
+                
+                  {/* filter by Options */}
+
+                  <Autocomplete
+                    disablePortal
+                    id="combo-box"
+                    options={sortByOptions}
+                    getOptionLabel={(option) => option.filterby}
+
+                    onChange={(event, newValue) =>{
+                      event.preventDefault();
+                      setSortBy(newValue);
+                    }}
+
+                    sx={{ width: 300 }}
+                    renderInput={(params) => 
+                      
+                    <TextField {...params} label="Sort by" />
+
+                    }
+
+                  />
+                  <FormGroup>
+
+                    <FormControlLabel control={<Switch defaultChecked 
+                                                        onChange={(event, newValue) => {
+                                                          event.preventDefault();
+                                                          setSwitchBy(newValue);
+                                                        }}
+                                                  />
+                                              } label="Asc / Desc" />
+  
+                  </FormGroup>
+
                 </Stack>
 
           </div>
@@ -1517,6 +1558,20 @@ const dietDefinition = [
     type: "Whole30",
     desc: "Allowed ingredients include meat, fish/seafood, eggs, vegetables, fresh fruit, coconut oil, olive oil, small amounts of dried fruit and nuts/seeds. Ingredients not allowed include added sweeteners (natural and artificial, except small amounts of fruit juice), dairy (except clarified butter or ghee), alcohol, grains, legumes (except green beans, sugar snap peas, and snow peas), and food additives, such as carrageenan, MSG, and sulfites.",
   },
+];
+
+// filter by options
+
+const sortByOptions = [
+
+  { index: 1, filterby: "popularity" },
+  { index: 2, filterby: "healthiness" },
+  { index: 3, filterby: "price" },
+  { index: 4, filterby: "time" },
+  { index: 5, filterby: "random" },
+  { index: 6, filterby: "max-used-ingredients" },
+  { index: 7, filterby: "min-missing-ingredients" },
+  
 ];
 
 
