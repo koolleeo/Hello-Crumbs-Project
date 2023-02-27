@@ -2,7 +2,7 @@ import React from 'react';
 
 function HomePage() {
   return (
-    <div>
+    <div className='hero-container'>
       <div className='welcome-msg'>
       <button>Welcome to the Home Page!</button>
       </div>
@@ -10,7 +10,7 @@ function HomePage() {
         <button>Brief "About Us!"</button>
       </div>
       
-      <p>This is where you can find information about our company.</p>
+      {/* <p>This is where you can find information about our company.</p> */}
     </div>
   );
 }
