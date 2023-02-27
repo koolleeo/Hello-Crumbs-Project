@@ -6,38 +6,145 @@ import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import { FormGroup, FormControlLabel, Checkbox } from "@mui/material";
-import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
-import CheckBoxIcon from "@mui/icons-material/CheckBox";
+
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import SubmitOptionsButton from '../components/SubmitOptionsBtn';
+import axios from 'axios';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
+
 function SearchPage() {
   // define state for ingredients selection
 
-  const [selectedValues, setSelectedValues] = useState([]);
+const [selectedValues, setSelectedValues] = useState([]);
 
   // define state for cuisine selection
-
-  const [cuisine, setCuisine] = useState([]);
+  
+const [cuisine, setCuisine] = useState([]);
 
   // define state for meal type
 
-  const [mealType, setMealType] = useState([]);
+const [mealType, setMealType] = useState([]);
 
   // define state for intolerances
 
-  const [intolerance, setIntolerance] = useState([]);
+const [intolerance, setIntolerance] = useState([]);
 
   // define state for exclude cuisine checkbox
 
-  const [option, setOption] = useState(true);
+const [option, setOption] = useState(true);
 
-  // define statis for ingredients to exclude
+  // define state for ingredients to exclude
 
-  const [excludedValues, setExcludedValues] = useState([]);
-  console.log(selectedValues);
+const [excludedValues, setExcludedValues] = useState([]);
 
+  // define state for Diet Type
+
+const [dietType, setDietType] = useState([]);
+
+
+
+// create click handler function that triggers API call
+
+const clickHandler = () => {
+
+// TODO: build api call url parameters based on user input
+
+let $selectedValues = '&query=';
+     
+if(selectedValues===null||selectedValues.length===0) {
+
+  $selectedValues = `&query=chicken,spinach,cream`;
+
+} else {
+
+  selectedValues.forEach((arr, index) => {
+    $selectedValues += index === selectedValues.length -1 ? `${arr.ingredients}` : `${arr.ingredients},`
+
+  })
+
+};
+
+// TODO: change input to multi selectors
+
+// let $cuisine = '&cuisine=';
+     
+// if(cuisine===null||cuisine.length===0) {
+
+//   $cuisine = ``;
+
+// } else {
+
+//   cuisine.forEach((arr, index) => {
+//     $cuisine += index === cuisine.length -1 ? `${arr.cuisine}` : `${arr.cuisine},`
+
+//   })
+// }
+
+let $cuisine = '&cuisine=';
+      
+cuisine === null ? $cuisine = '' : $cuisine = `&cuisine=${cuisine.cuisine}`
+
+
+let $mealType = '&type=';
+      
+mealType === null ? $mealType = '' : $mealType = `&type=${mealType.type}`
+
+
+let $intolerance = '&intolerances=';
+     
+if(intolerance===null||intolerance.length===0) {
+
+$intolerance = ``;
+
+} else {
+
+intolerance.forEach((arr, index) => {
+    $intolerance += index === intolerance.length -1 ? `${arr.type}` : `${arr.type},`
+
+})
+
+};
+
+
+let $excludedValues = '&excludeIngredients=';
+     
+if(excludedValues===null||excludedValues.length===0) {
+
+$excludedValues = ``;
+
+} else {
+
+excludedValues.forEach((arr, index) => {
+    $excludedValues += index === excludedValues.length -1 ? `${arr.ingredients}` : `${arr.ingredients},`
+
+})
+
+};
+
+let $dietType = '&diet=';
+      
+dietType === null ? $dietType = '' : $dietType = `&diet=${dietType.type}`
+
+
+// test output
+console.log($selectedValues, $cuisine, $mealType,$intolerance,$excludedValues,$dietType)
+
+
+const APIkey = `apiKey=be7afc61d90741a1a46cbf724312a257`;
+const searchURL = `https://api.spoonacular.com/recipes/complexSearch?addRecipeInformation=true&addRecipeNutrition=true&`;
+
+// API get request using Axios
+
+// axios.get(`${searchURL}${APIkey}${$selectedValues}${$cuisine}${$mealType}${$intolerance}${$excludedValues}${$dietType}`)
+// .then(response => {console.log(response)}); //test
+      
+  }
+
+  
   return (
     <div>
       <div className="header">
@@ -169,31 +276,105 @@ function SearchPage() {
                     setOption(newvalue);
                   }}
                 />
-              </FormGroup>
 
-              {/* food to exclude */}
 
-              <Autocomplete
-                multiple
-                id="tags-outlined"
-                options={top1000ingredients}
-                getOptionLabel={(option) => option.ingredients}
-                filterSelectedOptions
-                onChange={(event, newValue) => {
-                  event.preventDefault();
-                  setExcludedValues(newValue);
-                }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Ingredients to exclude"
-                    placeholder="do not include"
+                  {/* diet definitions */}
+
+                  <Autocomplete
+                    disablePortal
+                    id="combo-box"
+                    options={dietDefinition}
+                    getOptionLabel={(option) => option.type}
+
+                    onChange={(event, newValue) =>{
+                      event.preventDefault();
+                      setDietType(newValue);
+                    }}
+
+                    sx={{ width: 300 }}
+                    renderInput={(params) => 
+                      
+                    <TextField {...params} label="Diet Definition" />
+
+                    }
+
                   />
-                )}
-              />
-            </Stack>
+
+                {/* intolerances */}
+
+                <Autocomplete
+                      multiple
+                      id="checkboxes-tags-demo"
+                      options={intolerances}
+                      disableCloseOnSelect
+                      getOptionLabel={(option) => option.type}
+
+                      onChange={(event, newValue) => {
+                        event.preventDefault();
+                        setIntolerance(newValue);
+                      }}
+
+                      renderOption={(props, option, { selected }) => (
+                        <li {...props}>
+                          <Checkbox
+                            icon={icon}
+                            checkedIcon={checkedIcon}
+                            style={{ marginRight: 8 }}
+                            checked={selected}
+                          />
+                          {option.type}
+                        </li>
+                      )}
+                      style={{ width: 500 }}
+                      renderInput={(params) => (
+                        <TextField {...params} label="Do you have any intolerances?" placeholder="Intolerances" />
+                      )}
+                    />
+
+                    <FormGroup>
+
+                      <FormControlLabel 
+
+                            control={<Checkbox defaultChecked />} 
+                            label="Any ingredients you want to exclude?"
+                            onChange={(event, newvalue) => {
+                                event.preventDefault();
+                                setOption(newvalue);
+                            }}
+                        
+                        />
+
+                    </FormGroup>
+
+                    {/* food to exclude */}
+
+                    <Autocomplete
+                        multiple
+                        id="tags-outlined"
+                        options={top1000ingredients}
+                        getOptionLabel={(option) => option.ingredients}
+                                filterSelectedOptions
+
+                        onChange={(event, newValue) => {
+                            event.preventDefault();
+                            setExcludedValues(newValue);
+                          }}
+
+                        renderInput={(params) => (
+
+                          <TextField
+                            {...params}
+                            label="Ingredients to exclude"
+                            placeholder="do not include"
+                          />
+
+                        )}
+                />
+                </Stack>
+
           </div>
         </div>
+        <SubmitOptionsButton clickHandler={clickHandler}/>
       </div>
 
       <div className="recipes-container">
@@ -1338,4 +1519,6 @@ const dietDefinition = [
   },
 ];
 
+
 export default SearchPage;
+
