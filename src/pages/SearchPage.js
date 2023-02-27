@@ -1,10 +1,12 @@
-import React from 'react';
+import React from "react";
 import { useState } from "react";
+import "../styles/SearchPage.css";
 
-import Autocomplete from '@mui/material/Autocomplete';
-import TextField from '@mui/material/TextField';
-import Stack from '@mui/material/Stack';
+import Autocomplete from "@mui/material/Autocomplete";
+import TextField from "@mui/material/TextField";
+import Stack from "@mui/material/Stack";
 import { FormGroup, FormControlLabel, Checkbox } from "@mui/material";
+
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import SubmitOptionsButton from '../components/SubmitOptionsBtn';
@@ -14,9 +16,7 @@ const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 
-
 function SearchPage() {
-
   // define state for ingredients selection
 
 const [selectedValues, setSelectedValues] = useState([]);
@@ -147,10 +147,9 @@ const searchURL = `https://api.spoonacular.com/recipes/complexSearch?addRecipeIn
   
   return (
     <div>
-      <div className='header'>
-        <div className='search-container'>
-          <div className='ingredients-search'>
-
+      <div className="header">
+        <div className="search-container">
+          <div className="ingredients-search">
             <h2>Ingredient Search</h2>
 
             {/* <div className='search-items'>
@@ -162,69 +161,122 @@ const searchURL = `https://api.spoonacular.com/recipes/complexSearch?addRecipeIn
               </div>
             </div> */}
 
-                {/* Material UI (MUI) components */}
+            {/* Material UI (MUI) components */}
 
-                <Stack spacing={3} sx={{ width: 500, marginLeft: 3 }}>
+            <Stack spacing={3} sx={{ width: 500, marginLeft: 3 }}>
+              <Autocomplete
+                multiple
+                id="tags-outlined"
+                options={top1000ingredients}
+                getOptionLabel={(option) => option.ingredients}
+                filterSelectedOptions
+                onChange={(event, newValue) => {
+                  event.preventDefault();
+                  setSelectedValues(newValue);
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Ingredients selection"
+                    placeholder="Favorites"
+                  />
+                )}
+              />
 
-                <Autocomplete
+              {/* cuisine */}
 
-                  multiple
-                  id="tags-outlined"
-                  options={top1000ingredients} 
-                  getOptionLabel={(option) => option.ingredients}
-                  filterSelectedOptions
+              <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                options={topCuisine}
+                getOptionLabel={(option) => option.cuisine}
+                onChange={(event, newValue) => {
+                  event.preventDefault();
+                  setCuisine(newValue);
+                }}
+                sx={{ width: 300 }}
+                renderInput={(params) => (
+                  <TextField {...params} label="Cuisine" />
+                )}
+              />
 
-                    onChange={(event, newValue) => {
-                        event.preventDefault();
-                        setSelectedValues(newValue);
-                        ;
-                      }}
+              {/* meal type */}
 
-                  renderInput={(params) => (
+              <Autocomplete
+                disablePortal
+                id="combo-box"
+                options={meal}
+                getOptionLabel={(option) => option.type}
+                onChange={(event, newValue) => {
+                  event.preventDefault();
+                  setMealType(newValue);
+                }}
+                sx={{ width: 300 }}
+                renderInput={(params) => (
+                  <TextField {...params} label="Meal type" />
+                )}
+              />
 
-                      <TextField
-                        {...params}
-                        label="Ingredients selection"
-                        placeholder="Favorites"
-                      />
+              {/* diet definitions */}
 
-                  )}
+              <Autocomplete
+                disablePortal
+                id="combo-box"
+                options={dietDefinition}
+                getOptionLabel={(option) => option.type}
+                onChange={(event, newValue) => {
+                  event.preventDefault();
+                  setMealType(newValue);
+                }}
+                sx={{ width: 300 }}
+                renderInput={(params) => (
+                  <TextField {...params} label="Diet Definition" />
+                )}
+              />
 
-                />
+              {/* intolerances */}
 
-                {/* cuisine */}
+              <Autocomplete
+                multiple
+                id="checkboxes-tags-demo"
+                options={intolerances}
+                disableCloseOnSelect
+                getOptionLabel={(option) => option.type}
+                onChange={(event, newValue) => {
+                  event.preventDefault();
+                  setIntolerance(newValue);
+                }}
+                renderOption={(props, option, { selected }) => (
+                  <li {...props}>
+                    <Checkbox
+                      icon={icon}
+                      checkedIcon={checkedIcon}
+                      style={{ marginRight: 8 }}
+                      checked={selected}
+                    />
+                    {option.type}
+                  </li>
+                )}
+                style={{ width: 500 }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Do you have any intolerances?"
+                    placeholder="Intolerances"
+                  />
+                )}
+              />
 
-                <Autocomplete
-                  disablePortal
-                  id="combo-box-demo"
-                  options={topCuisine}
-                  getOptionLabel={(option) => option.cuisine}
-
-                  onChange={(event, newValue) =>{
+              <FormGroup>
+                <FormControlLabel
+                  control={<Checkbox defaultChecked />}
+                  label="Any ingredients you want to exclude?"
+                  onChange={(event, newvalue) => {
                     event.preventDefault();
-                    setCuisine(newValue);
+                    setOption(newvalue);
                   }}
-
-                  sx={{ width: 300 }}
-                  renderInput={(params) => <TextField {...params} label="Cuisine" />}
                 />
 
-                {/* meal type */}
-
-                <Autocomplete
-                  disablePortal
-                  id="combo-box"
-                  options={meal}
-                  getOptionLabel={(option) => option.type}
-
-                  onChange={(event, newValue) =>{
-                    event.preventDefault();
-                    setMealType(newValue);
-                  }}
-
-                  sx={{ width: 300 }}
-                  renderInput={(params) => <TextField {...params} label="Meal type" />}
-                />
 
                   {/* diet definitions */}
 
@@ -319,27 +371,32 @@ const searchURL = `https://api.spoonacular.com/recipes/complexSearch?addRecipeIn
                         )}
                 />
                 </Stack>
+
           </div>
         </div>
         <SubmitOptionsButton clickHandler={clickHandler}/>
       </div>
-      <div className='recipes-container'>
 
-
+      <div className="recipes-container">
         <h3>What can you make?</h3>
-        <div className='recipes'>
-          
-          <div className='recipe'><h3>Recipe 1</h3></div>
-          <div className='recipe'><h3>Recipe 2</h3></div>
-          <div className='recipe'><h3>Recipe 3</h3></div>
-          <div className='recipe'><h3>Recipe 4</h3></div>
+        <div className="recipes">
+          <div className="recipe">
+            <h3>Recipe 1</h3>
+          </div>
+          <div className="recipe">
+            <h3>Recipe 2</h3>
+          </div>
+          <div className="recipe">
+            <h3>Recipe 3</h3>
+          </div>
+          <div className="recipe">
+            <h3>Recipe 4</h3>
+          </div>
         </div>
-        
       </div>
     </div>
   );
-};
-
+}
 
 // Top 1000 ingredients
 
@@ -1344,13 +1401,11 @@ const top1000ingredients = [
   { ingredients: "yellow onion", id: 10511282 },
   { ingredients: "yogurt", id: 1116 },
   { ingredients: "yukon gold potato", id: 10211362 },
-     
 ];
 
 // cuisine options
 
 const topCuisine = [
-
   { index: 1, cuisine: "African" },
   { index: 2, cuisine: "American" },
   { index: 3, cuisine: "British" },
@@ -1377,13 +1432,11 @@ const topCuisine = [
   { index: 24, cuisine: "Spanish" },
   { index: 25, cuisine: "Thai" },
   { index: 26, cuisine: "Vietnamese" },
-  
 ];
 
 // meal type options
 
 const meal = [
-
   { index: 1, type: "main course" },
   { index: 2, type: "side dish" },
   { index: 3, type: "dessert" },
@@ -1398,13 +1451,11 @@ const meal = [
   { index: 12, type: "fingerfood" },
   { index: 13, type: "snack" },
   { index: 14, type: "drink" },
-
 ];
 
 // intolerances
 
 const intolerances = [
-
   { index: 1, type: "Dairy" },
   { index: 2, type: "Egg" },
   { index: 3, type: "Gluten" },
@@ -1416,27 +1467,58 @@ const intolerances = [
   { index: 9, type: "Soy" },
   { index: 10, type: "Sulfite" },
   { index: 11, type: "Tree Nut" },
-  { index: 12, type: "Wheat" },    
-
+  { index: 12, type: "Wheat" },
 ];
 
 // diet definitions
 
 const dietDefinition = [
-
-  { type: "Gluten Free", desc: "Eliminating gluten means avoiding wheat, barley, rye, and other gluten-containing grains and foods made from them (or that may have been cross contaminated)." },
-  { type: "Ketogenic", desc: "The keto diet is based more on the ratio of fat, protein, and carbs in the diet rather than specific ingredients. Generally speaking, high fat, protein-rich foods are acceptable and high carbohydrate foods are not. The formula we use is 55-80% fat content, 15-35% protein content, and under 10% of carbohydrates." },
-  { type: "Vegetarian", desc: "No ingredients may contain meat or meat by-products, such as bones or gelatin." },
-  { type: "Lacto-Vegetarian", desc: "All ingredients must be vegetarian and none of the ingredients can be or contain egg." },
-  { type: "Ovo-Vegetarian", desc: "All ingredients must be vegetarian and none of the ingredients can be or contain dairy." },
-  { type: "Vegan", desc: "No ingredients may contain meat or meat by-products, such as bones or gelatin, nor may they contain eggs, dairy, or honey." },
-  { type: "Pescetarian", desc: "Everything is allowed except meat and meat by-products - some pescetarians eat eggs and dairy, some do not." },
-  { type: "Paleo", desc: "Allowed ingredients include meat (especially grass fed), fish, eggs, vegetables, some oils (e.g. coconut and olive oil), and in smaller quantities, fruit, nuts, and sweet potatoes. We also allow honey and maple syrup (popular in Paleo desserts, but strict Paleo followers may disagree). Ingredients not allowed include legumes (e.g. beans and lentils), grains, dairy, refined sugar, and processed foods." },
-  { type: "Primal", desc: "Very similar to Paleo, except dairy is allowed - think raw and full fat milk, butter, ghee, etc." },
-  { type: "Low FODMAP", desc: "FODMAP stands for 'fermentable oligo-, di-, mono-saccharides and polyols'. Our ontology knows which foods are considered high in these types of carbohydrates (e.g. legumes, wheat, and dairy products)" },
-  { type: "Whole30", desc: "Allowed ingredients include meat, fish/seafood, eggs, vegetables, fresh fruit, coconut oil, olive oil, small amounts of dried fruit and nuts/seeds. Ingredients not allowed include added sweeteners (natural and artificial, except small amounts of fruit juice), dairy (except clarified butter or ghee), alcohol, grains, legumes (except green beans, sugar snap peas, and snow peas), and food additives, such as carrageenan, MSG, and sulfites." },
-
+  {
+    type: "Gluten Free",
+    desc: "Eliminating gluten means avoiding wheat, barley, rye, and other gluten-containing grains and foods made from them (or that may have been cross contaminated).",
+  },
+  {
+    type: "Ketogenic",
+    desc: "The keto diet is based more on the ratio of fat, protein, and carbs in the diet rather than specific ingredients. Generally speaking, high fat, protein-rich foods are acceptable and high carbohydrate foods are not. The formula we use is 55-80% fat content, 15-35% protein content, and under 10% of carbohydrates.",
+  },
+  {
+    type: "Vegetarian",
+    desc: "No ingredients may contain meat or meat by-products, such as bones or gelatin.",
+  },
+  {
+    type: "Lacto-Vegetarian",
+    desc: "All ingredients must be vegetarian and none of the ingredients can be or contain egg.",
+  },
+  {
+    type: "Ovo-Vegetarian",
+    desc: "All ingredients must be vegetarian and none of the ingredients can be or contain dairy.",
+  },
+  {
+    type: "Vegan",
+    desc: "No ingredients may contain meat or meat by-products, such as bones or gelatin, nor may they contain eggs, dairy, or honey.",
+  },
+  {
+    type: "Pescetarian",
+    desc: "Everything is allowed except meat and meat by-products - some pescetarians eat eggs and dairy, some do not.",
+  },
+  {
+    type: "Paleo",
+    desc: "Allowed ingredients include meat (especially grass fed), fish, eggs, vegetables, some oils (e.g. coconut and olive oil), and in smaller quantities, fruit, nuts, and sweet potatoes. We also allow honey and maple syrup (popular in Paleo desserts, but strict Paleo followers may disagree). Ingredients not allowed include legumes (e.g. beans and lentils), grains, dairy, refined sugar, and processed foods.",
+  },
+  {
+    type: "Primal",
+    desc: "Very similar to Paleo, except dairy is allowed - think raw and full fat milk, butter, ghee, etc.",
+  },
+  {
+    type: "Low FODMAP",
+    desc: "FODMAP stands for 'fermentable oligo-, di-, mono-saccharides and polyols'. Our ontology knows which foods are considered high in these types of carbohydrates (e.g. legumes, wheat, and dairy products)",
+  },
+  {
+    type: "Whole30",
+    desc: "Allowed ingredients include meat, fish/seafood, eggs, vegetables, fresh fruit, coconut oil, olive oil, small amounts of dried fruit and nuts/seeds. Ingredients not allowed include added sweeteners (natural and artificial, except small amounts of fruit juice), dairy (except clarified butter or ghee), alcohol, grains, legumes (except green beans, sugar snap peas, and snow peas), and food additives, such as carrageenan, MSG, and sulfites.",
+  },
 ];
 
 
 export default SearchPage;
+
