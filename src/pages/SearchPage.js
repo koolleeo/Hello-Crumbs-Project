@@ -179,12 +179,62 @@ const options = {
 
 
 axios.request(options).then(function (response) {
+
 	console.log(response.data);
+
 }).catch(function (error) {
+
 	console.error(error);
+
 });
       
   }
+
+ 
+// make API call by ID when user adds to favourites
+
+const favouritesAPIcall = (id) => {
+
+  function storageObject(id, date, response) {
+
+    this.id = id;
+    this.date = date;
+    this.response = response;
+
+  };
+
+  const options = {
+    method: 'GET',
+    url: `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/${id}/information`,
+    params: {
+      includeNutrition: 'true'
+    },
+    headers: {
+      'X-RapidAPI-Key': `${process.env.REACT_APP_API_KEY}`,
+      'X-RapidAPI-Host': `${process.env.REACT_APP_API_URL}`
+    }
+  };
+    
+  axios.request(options).then(function (response) {
+
+    let $id = id;
+    let $date = new Date();
+    let $response = response;
+    let $record = new storageObject($id, $date, $response);
+
+    console.log(response.data);
+    console.log($record);
+
+    updateLocalStorage($record);
+
+  }).catch(function (error) {
+
+    console.error(error);
+
+  });
+
+
+}
 
   
   return (
@@ -419,6 +469,8 @@ renderInput={(params) => (
           </div>
         </div>
         <SubmitOptionsButton clickHandler={clickHandler}/>
+        {/* <SubmitOptionsButton clickHandler={favouritesAPIcall(716429)}/> */}
+        
       </div>
 
       <div className="recipes-container">
@@ -1576,6 +1628,34 @@ const sortByOptions = [
   { index: 7, filterby: "min-missing-ingredients" },
   
 ];
+
+function updateLocalStorage(object){
+
+  //get local storage
+  let storage = localStorage.getItem("recipefavourites");
+  let storageArr = JSON.parse(storage);
+
+  //create an empty array and push instance of storage object
+  let array = [];
+  array.push(object);
+
+  //if storage array already exists, replace existing entry if exists and recreate array of objects
+  if (storageArr != null) {
+
+      storageArr.forEach(arr => {
+  
+          if (arr.id === object.id) {
+              return;
+          } else {
+              array.push(arr)
+          }
+      })
+  
+  }
+
+  localStorage.setItem("recipefavourites", JSON.stringify(array));
+
+}
 
 
 export default SearchPage;
