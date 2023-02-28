@@ -2,17 +2,18 @@ import React from "react";
 import { useState } from "react";
 import "../styles/SearchPage.css";
 
-import Autocomplete from "@mui/material/Autocomplete";
-import TextField from "@mui/material/TextField";
-import Stack from "@mui/material/Stack";
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
+import Stack from '@mui/material/Stack';
 import { FormGroup, FormControlLabel, Checkbox, Switch } from "@mui/material";
-import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
-import CheckBoxIcon from "@mui/icons-material/CheckBox";
-import SubmitOptionsButton from "../components/SubmitOptionsBtn";
-// import axios from "axios";
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import SubmitOptionsButton from '../components/SubmitOptionsBtn';
+import axios from 'axios';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
+
 
 function SearchPage() {
 
@@ -60,7 +61,7 @@ if(selectedValues===null||selectedValues.length===0) {
 
   $selectedValues = `chicken,spinach,cream`;
 
-  const [switchBy, setSwitchBy] = useState([]);
+} else {
 
   selectedValues.forEach((arr, index) => {
     $selectedValues += index === selectedValues.length -1 ? `${arr.ingredients}` : `${arr.ingredients},`
@@ -101,62 +102,40 @@ $intolerance = ``;
 intolerance.forEach((arr, index) => {
     $intolerance += index === intolerance.length -1 ? `${arr.type}` : `${arr.type},`
 
-    // cuisine selector
+})
 
-    let $cuisine = "&cuisine=";
+};
 
 // excluded ingredients selector
 let $excludedValues = '';
      
 if(excludedValues===null||excludedValues.length===0) {
 
-    let $mealType = "&type=";
+$excludedValues = ``;
 
-    mealType.length === 0
-      ? ($mealType = "")
-      : ($mealType = `${$mealType}${mealType.type}`);
+} else {
 
-    // intolerances selector
+excludedValues.forEach((arr, index) => {
+    $excludedValues += index === excludedValues.length -1 ? `${arr.ingredients}` : `${arr.ingredients},`
 
-    let $intolerance = "&intolerances=";
+})
 
-    if (intolerance === null || intolerance.length === 0) {
-      $intolerance = ``;
-    } else {
-      intolerance.forEach((arr, index) => {
-        $intolerance +=
-          index === intolerance.length - 1 ? `${arr.type}` : `${arr.type},`;
-      });
-    }
+};
 
 // diet selector
 let $dietType = '';
      
 if(dietType===null||dietType.length===0) {
 
-    if (excludedValues === null || excludedValues.length === 0) {
-      $excludedValues = ``;
-    } else {
-      excludedValues.forEach((arr, index) => {
-        $excludedValues +=
-          index === excludedValues.length - 1
-            ? `${arr.ingredients}`
-            : `${arr.ingredients},`;
-      });
-    }
+  $dietType = ``;
 
-    // diet selector
+} else {
 
-    let $dietType = "&diet=";
+  dietType.forEach((arr, index) => {
+    $dietType += index === dietType.length -1 ? `${arr.type}` : `${arr.type},`
 
-    if (dietType === null || dietType.length === 0) {
-      $dietType = ``;
-    } else {
-      dietType.forEach((arr, index) => {
-        $dietType +=
-          index === dietType.length - 1 ? `${arr.type}` : `${arr.type},`;
-      });
-    }
+  })
+}
 
 // sort option
 let $sortBy = '';
@@ -487,37 +466,8 @@ renderInput={(params) => (
   
 </Stack>
 
-              <Autocomplete
-                disablePortal
-                id="combo-box"
-                options={sortByOptions}
-                getOptionLabel={(option) => option.filterby}
-                onChange={(event, newValue) => {
-                  event.preventDefault();
-                  setSortBy(newValue);
-                }}
-                sx={{ width: 300 }}
-                renderInput={(params) => (
-                  <TextField {...params} label="Sort by" />
-                )}
-              />
-              <FormGroup>
-                <FormControlLabel
-                  control={
-                    <Switch
-                      defaultChecked
-                      onChange={(event, newValue) => {
-                        setSwitchBy(newValue);
-                      }}
-                    />
-                  }
-                  label="Asc / Desc"
-                />
-              </FormGroup>
-            </Stack>
           </div>
         </div>
-        
         <SubmitOptionsButton clickHandler={clickHandler}/>
         {/* <SubmitOptionsButton clickHandler={favouritesAPIcall(716429)}/> */}
         
@@ -1668,6 +1618,7 @@ const dietDefinition = [
 // filter by options
 
 const sortByOptions = [
+
   { index: 1, filterby: "popularity" },
   { index: 2, filterby: "healthiness" },
   { index: 3, filterby: "price" },
@@ -1675,6 +1626,7 @@ const sortByOptions = [
   { index: 5, filterby: "random" },
   { index: 6, filterby: "max-used-ingredients" },
   { index: 7, filterby: "min-missing-ingredients" },
+  
 ];
 
 function updateLocalStorage(object){
