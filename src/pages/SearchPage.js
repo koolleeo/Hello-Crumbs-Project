@@ -15,76 +15,100 @@ const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 function SearchPage() {
-  // define state for ingredients selection
 
-  const [selectedValues, setSelectedValues] = useState([]);
+// define state for ingredients selection
+const [selectedValues, setSelectedValues] = useState([]);
 
-  // define state for cuisine selection
+// define state for cuisine selection
+const [cuisine, setCuisine] = useState([]);
 
-  const [cuisine, setCuisine] = useState([]);
+// define state for meal type
+const [mealType, setMealType] = useState([]);
 
-  // define state for meal type
+// define state for intolerances
+const [intolerance, setIntolerance] = useState([]);
 
-  const [mealType, setMealType] = useState([]);
+// define state for exclude cuisine checkbox
+const [option, setOption] = useState(true);
 
-  // define state for intolerances
+// define state for ingredients to exclude
+const [excludedValues, setExcludedValues] = useState([]);
 
-  const [intolerance, setIntolerance] = useState([]);
+// define state for Diet Type
+const [dietType, setDietType] = useState([]);
 
-  // define state for exclude cuisine checkbox
+// define state for filter by options
+const [sortBy, setSortBy] = useState(null);
 
-  const [option, setOption] = useState(true);
+// define state for switch
+const [switchBy, setSwitchBy] = useState([]);
 
-  // define state for ingredients to exclude
+// define state for max time
+const [maxTime, setMaxTime] = useState(null)
 
-  const [excludedValues, setExcludedValues] = useState([]);
 
-  // define state for Diet Type
+// create click handler function that triggers API call
 
-  const [dietType, setDietType] = useState([]);
+const clickHandler = () => {
 
-  // define state for filter by options
+// build api call url parameters based on user input
 
-  const [sortBy, setSortBy] = useState([]);
+// ingredients selector
+let $selectedValues = '';
+     
+if(selectedValues===null||selectedValues.length===0) {
 
-  // define state for switch
+  $selectedValues = `chicken,spinach,cream`;
 
   const [switchBy, setSwitchBy] = useState([]);
 
-  // create click handler function that triggers API call
+  selectedValues.forEach((arr, index) => {
+    $selectedValues += index === selectedValues.length -1 ? `${arr.ingredients}` : `${arr.ingredients},`
 
-  const clickHandler = () => {
-    // build api call url parameters based on user input
+  })
 
-    // ingredients selector
+};
 
-    let $selectedValues = "&query=";
+// cuisine selector
+let $cuisine = '';
+     
+if(cuisine===null||cuisine.length===0) {
 
-    if (selectedValues === null || selectedValues.length === 0) {
-      $selectedValues = `&query=chicken,spinach,cream`;
-    } else {
-      selectedValues.forEach((arr, index) => {
-        $selectedValues +=
-          index === selectedValues.length - 1
-            ? `${arr.ingredients}`
-            : `${arr.ingredients},`;
-      });
-    }
+  $cuisine = ``;
+
+} else {
+
+  cuisine.forEach((arr, index) => {
+    $cuisine += index === cuisine.length -1 ? `${arr.cuisine}` : `${arr.cuisine},`
+
+  })
+}
+
+// meal type selector
+let $mealType = '';
+      
+mealType.length === 0 ? $mealType = '' : $mealType = `${$mealType}${mealType.type}`
+
+// intolerances selector
+let $intolerance = '';
+     
+if(intolerance===null||intolerance.length===0) {
+
+$intolerance = ``;
+
+} else {
+
+intolerance.forEach((arr, index) => {
+    $intolerance += index === intolerance.length -1 ? `${arr.type}` : `${arr.type},`
 
     // cuisine selector
 
     let $cuisine = "&cuisine=";
 
-    if (cuisine === null || cuisine.length === 0) {
-      $cuisine = ``;
-    } else {
-      cuisine.forEach((arr, index) => {
-        $cuisine +=
-          index === cuisine.length - 1 ? `${arr.cuisine}` : `${arr.cuisine},`;
-      });
-    }
-
-    // meal type selector
+// excluded ingredients selector
+let $excludedValues = '';
+     
+if(excludedValues===null||excludedValues.length===0) {
 
     let $mealType = "&type=";
 
@@ -105,9 +129,10 @@ function SearchPage() {
       });
     }
 
-    // excluded ingredients selector
-
-    let $excludedValues = "&excludeIngredients=";
+// diet selector
+let $dietType = '';
+     
+if(dietType===null||dietType.length===0) {
 
     if (excludedValues === null || excludedValues.length === 0) {
       $excludedValues = ``;
@@ -133,44 +158,106 @@ function SearchPage() {
       });
     }
 
-    // sort option
+// sort option
+let $sortBy = '';
+      
+sortBy === null ? $sortBy = `` : $sortBy = `${sortBy.filterby}`;
 
-    let $sortBy = "&sort=";
+// sort direction
+let $switchBy = '';
+      
+switchBy.length === 0 || switchBy === true ? $switchBy = `${$switchBy}desc` : $switchBy = `${$switchBy}asc`
 
-    switchBy.length === 0 ? ($sortBy = ``) : ($sortBy = `${$sortBy}`);
+// max time
+let $maxTime = '';
 
-    // sort direction
+maxTime === null || maxTime[0] === '' ? $maxTime = `` : $maxTime = `${maxTime}`;
 
-    let $switchBy = "&sortDirection=";
 
-    switchBy.length === 0 || switchBy === true
-      ? ($switchBy = `${$switchBy}desc`)
-      : ($switchBy = `${$switchBy}asc`);
 
-    // test output
-    console.log(
-      $selectedValues,
-      $cuisine,
-      $mealType,
-      $intolerance,
-      $excludedValues,
-      $dietType,
-      switchBy,
-      $switchBy,
-      sortBy,
-      mealType,
-      $sortBy
-    );
+const options = {
+  method: 'GET',
+  url: 'https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/complexSearch',
+  params: {
+    query: `${$selectedValues}`,
+    includeIngredients: `${$selectedValues}`,
+    cuisine: `${$cuisine}`,
+    type: `${$mealType}`,
+    diet: `${$dietType}`,
+    intolerances: `${$intolerance}`,
+    excludeIngredients: `${$excludedValues}`,
+    addRecipeInformation: 'true',
+    addRecipeNutrition: 'true',
+    maxReadyTime: $maxTime === '' ? '999' : `${$maxTime}`,
+    sort: `${$sortBy}`,
+    sortDirection: `${$switchBy}`
+  },
+  headers: {
+    'X-RapidAPI-Key': `${process.env.REACT_APP_API_KEY}`,
+    'X-RapidAPI-Host': `${process.env.REACT_APP_API_URL}`
+  }
+};
 
-    const APIkey = `apiKey=be7afc61d90741a1a46cbf724312a257`;
-    const searchURL = `https://api.spoonacular.com/recipes/complexSearch?addRecipeInformation=true&addRecipeNutrition=true&`;
 
-    // API get request using Axios
+axios.request(options).then(function (response) {
 
-    // axios.get(`${searchURL}${APIkey}${$selectedValues}${$cuisine}${$mealType}${$intolerance}${$excludedValues}${$dietType}`)
-    // .then(response => {console.log(response)}); //test
+	console.log(response.data);
+
+}).catch(function (error) {
+
+	console.error(error);
+
+});
+      
+  }
+
+ 
+// make API call by ID when user adds to favourites
+
+const favouritesAPIcall = (id) => {
+
+  function storageObject(id, date, response) {
+
+    this.id = id;
+    this.date = date;
+    this.response = response;
+
   };
 
+  const options = {
+    method: 'GET',
+    url: `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/${id}/information`,
+    params: {
+      includeNutrition: 'true'
+    },
+    headers: {
+      'X-RapidAPI-Key': `${process.env.REACT_APP_API_KEY}`,
+      'X-RapidAPI-Host': `${process.env.REACT_APP_API_URL}`
+    }
+  };
+    
+  axios.request(options).then(function (response) {
+
+    let $id = id;
+    let $date = new Date();
+    let $response = response;
+    let $record = new storageObject($id, $date, $response);
+
+    console.log(response.data);
+    console.log($record);
+
+    updateLocalStorage($record);
+
+  }).catch(function (error) {
+
+    console.error(error);
+
+  });
+
+
+}
+
+  
   return (
     <div>
       <div className="header">
@@ -178,186 +265,227 @@ function SearchPage() {
           <div className="ingredients-search">
             <h2>Ingredient Search</h2>
 
-            {/* <div className='search-items'>
-              <div>
-                <input type="text" placeholder='Search your ingredients here...' />
-              </div>
-              <div className='ingredients-list'>
-                <h3>Ingredients</h3>
-              </div>
-            </div> */}
+{/* Material UI (MUI) components */}
 
-            {/* Material UI (MUI) components */}
+<Stack spacing={3} sx={{ width: 500, marginLeft: 3 }}>
+  <Autocomplete
+    multiple
+    id="tags-outlined"
+    options={top1000ingredients}
+    getOptionLabel={(option) => option.ingredients}
+    filterSelectedOptions
+    onChange={(event, newValue) => {
+      event.preventDefault();
+      setSelectedValues(newValue);
+    }}
+    renderInput={(params) => (
+      <TextField
+        {...params}
+        label="Ingredients selection"
+        placeholder="Favorites"
+      />
+    )}
+  />
 
-            <Stack spacing={3} sx={{ width: 500, marginLeft: 3 }}>
-              <Autocomplete
-                multiple
-                id="tags-outlined"
-                options={top1000ingredients}
-                getOptionLabel={(option) => option.ingredients}
-                filterSelectedOptions
-                onChange={(event, newValue) => {
-                  event.preventDefault();
-                  setSelectedValues(newValue);
-                }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Ingredients selection"
-                    placeholder="Favorites"
-                  />
-                )}
-              />
+  {/* cuisine */}
 
-              {/* cuisine */}
+  <Autocomplete
+    multiple
+    id="checkboxes-tags-demo"
+    options={topCuisine}
+    disableCloseOnSelect
+    getOptionLabel={(option) => option.cuisine}
+    onChange={(event, newValue) => {
+      event.preventDefault();
+      setCuisine(newValue);
+    }}
+    renderOption={(props, option, { selected }) => (
+      <li {...props}>
+        <Checkbox
+          icon={icon}
+          checkedIcon={checkedIcon}
+          style={{ marginRight: 8 }}
+          checked={selected}
+        />
+        {option.cuisine}
+      </li>
+    )}
+    style={{ width: 500 }}
+    renderInput={(params) => (
+      <TextField
+        {...params}
+        label="Cuisine Selections"
+        placeholder="Cuisine Selections"
+      />
+    )}
+  />
 
-              <Autocomplete
-                multiple
-                id="checkboxes-tags-demo"
-                options={topCuisine}
-                disableCloseOnSelect
-                getOptionLabel={(option) => option.cuisine}
-                onChange={(event, newValue) => {
-                  event.preventDefault();
-                  setCuisine(newValue);
-                }}
-                renderOption={(props, option, { selected }) => (
-                  <li {...props}>
-                    <Checkbox
-                      icon={icon}
-                      checkedIcon={checkedIcon}
-                      style={{ marginRight: 8 }}
-                      checked={selected}
-                    />
-                    {option.cuisine}
-                  </li>
-                )}
-                style={{ width: 500 }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Cuisine Selections"
-                    placeholder="Cuisine Selections"
-                  />
-                )}
-              />
+  {/* meal type */}
 
-              {/* meal type */}
+  <Autocomplete
+    disablePortal
+    id="combo-box"
+    options={meal}
+    getOptionLabel={(option) => option.type}
+    onChange={(event, newValue) => {
+      event.preventDefault();
+      setMealType(newValue);
+    }}
+    sx={{ width: 300 }}
+    renderInput={(params) => (
+      <TextField {...params} label="Meal type" />
+    )}
+  />
 
-              <Autocomplete
-                disablePortal
-                id="combo-box"
-                options={meal}
-                getOptionLabel={(option) => option.type}
-                onChange={(event, newValue) => {
-                  event.preventDefault();
-                  setMealType(newValue);
-                }}
-                sx={{ width: 300 }}
-                renderInput={(params) => (
-                  <TextField {...params} label="Meal type" />
-                )}
-              />
+  {/* diet definitions */}
 
-              {/* diet definitions */}
+  <Autocomplete
+    multiple
+    id="checkboxes-tags-demo"
+    options={dietDefinition}
+    disableCloseOnSelect
+    getOptionLabel={(option) => option.type}
+    onChange={(event, newValue) => {
+      event.preventDefault();
+      setDietType(newValue);
+    }}
+    renderOption={(props, option, { selected }) => (
+      <li {...props}>
+        <Checkbox
+          icon={icon}
+          checkedIcon={checkedIcon}
+          style={{ marginRight: 8 }}
+          checked={selected}
+        />
+        {option.type}
+      </li>
+    )}
+    style={{ width: 500 }}
+    renderInput={(params) => (
+      <TextField
+        {...params}
+        label="Diet Selections"
+        placeholder="Diet Selections"
+      />
+    )}
+  />
 
-              <Autocomplete
-                multiple
-                id="checkboxes-tags-demo"
-                options={dietDefinition}
-                disableCloseOnSelect
-                getOptionLabel={(option) => option.type}
-                onChange={(event, newValue) => {
-                  event.preventDefault();
-                  setDietType(newValue);
-                }}
-                renderOption={(props, option, { selected }) => (
-                  <li {...props}>
-                    <Checkbox
-                      icon={icon}
-                      checkedIcon={checkedIcon}
-                      style={{ marginRight: 8 }}
-                      checked={selected}
-                    />
-                    {option.type}
-                  </li>
-                )}
-                style={{ width: 500 }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Diet Selections"
-                    placeholder="Diet Selections"
-                  />
-                )}
-              />
+  {/* intolerances */}
 
-              {/* intolerances */}
+  <Autocomplete
+    multiple
+    id="checkboxes-tags-demo"
+    options={intolerances}
+    disableCloseOnSelect
+    getOptionLabel={(option) => option.type}
+    onChange={(event, newValue) => {
+      event.preventDefault();
+      setIntolerance(newValue);
+    }}
+    renderOption={(props, option, { selected }) => (
+      <li {...props}>
+        <Checkbox
+          icon={icon}
+          checkedIcon={checkedIcon}
+          style={{ marginRight: 8 }}
+          checked={selected}
+        />
+        {option.type}
+      </li>
+    )}
+    style={{ width: 500 }}
+    renderInput={(params) => (
+      <TextField
+        {...params}
+        label="Do you have any intolerances?"
+        placeholder="Intolerances"
+      />
+    )}
+  />
 
-              <Autocomplete
-                multiple
-                id="checkboxes-tags-demo"
-                options={intolerances}
-                disableCloseOnSelect
-                getOptionLabel={(option) => option.type}
-                onChange={(event, newValue) => {
-                  event.preventDefault();
-                  setIntolerance(newValue);
-                }}
-                renderOption={(props, option, { selected }) => (
-                  <li {...props}>
-                    <Checkbox
-                      icon={icon}
-                      checkedIcon={checkedIcon}
-                      style={{ marginRight: 8 }}
-                      checked={selected}
-                    />
-                    {option.type}
-                  </li>
-                )}
-                style={{ width: 500 }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Do you have any intolerances?"
-                    placeholder="Intolerances"
-                  />
-                )}
-              />
+  <FormGroup>
+    <FormControlLabel
+      control={<Checkbox defaultChecked />}
+      label="Any ingredients you want to exclude?"
+      onChange={(event, newvalue) => {
+        event.preventDefault();
+        setOption(newvalue);
+      }}
+    />
+  </FormGroup>
 
-              <FormGroup>
-                <FormControlLabel
-                  control={<Checkbox defaultChecked />}
-                  label="Any ingredients you want to exclude?"
-                  onChange={(event, newvalue) => {
-                    event.preventDefault();
-                    setOption(newvalue);
-                  }}
-                />
-              </FormGroup>
+        {/* food to exclude */}
 
-              {/* food to exclude */}
+        <Autocomplete
+multiple
+id="tags-outlined"
+options={top1000ingredients}
+getOptionLabel={(option) => option.ingredients}
+        filterSelectedOptions
 
-              <Autocomplete
-                multiple
-                id="tags-outlined"
-                options={top1000ingredients}
-                getOptionLabel={(option) => option.ingredients}
-                filterSelectedOptions
-                onChange={(event, newValue) => {
-                  event.preventDefault();
-                  setExcludedValues(newValue);
-                }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Ingredients to exclude"
-                    placeholder="do not include"
-                  />
-                )}
-              />
+onChange={(event, newValue) => {
+    event.preventDefault();
+    setExcludedValues(newValue);
+  }}
 
-              {/* filter by Options */}
+renderInput={(params) => (
+
+  <TextField
+    {...params}
+    label="Ingredients to exclude"
+    placeholder="do not include"
+  />
+
+)}
+ />
+
+ 
+{/* filter by Options */}
+
+<Autocomplete
+  disablePortal
+  id="combo-box"
+  options={sortByOptions}
+  getOptionLabel={(option) => option.filterby}
+
+  onChange={(event, newValue) =>{
+ event.preventDefault();
+ setSortBy(newValue);
+  }}
+
+  sx={{ width: 300 }}
+  renderInput={(params) => 
+ 
+  <TextField {...params} label="Sort by" />
+
+  }
+
+/>
+<FormGroup>
+    <FormControlLabel
+    control={
+      <Switch
+      defaultChecked
+      onChange={(event, newValue) => {
+    setSwitchBy(newValue);
+      }}
+      />
+    }
+    label="Asc / Desc"
+    />
+</FormGroup>
+
+<TextField 
+  id="outlined-basic" 
+  label="Max ready time (Minutes)" 
+  variant="outlined" 
+  sx={{ width: 250 }}
+  onChange={(event) => {
+  setMaxTime([event.target.value]);
+}}
+/>
+  
+</Stack>
 
               <Autocomplete
                 disablePortal
@@ -389,23 +517,26 @@ function SearchPage() {
             </Stack>
           </div>
         </div>
-        <SubmitOptionsButton clickHandler={clickHandler} />
+        
+        <SubmitOptionsButton clickHandler={clickHandler}/>
+        {/* <SubmitOptionsButton clickHandler={favouritesAPIcall(716429)}/> */}
+        
       </div>
 
       <div className="recipes-container">
         <h3>What can you make?</h3>
         <div className="recipes">
           <div className="recipe">
-            <h3>Recipe 1</h3>
+              <h3>Recipe 1</h3>
           </div>
           <div className="recipe">
-            <h3>Recipe 2</h3>
+              <h3>Recipe 2</h3>
           </div>
           <div className="recipe">
-            <h3>Recipe 3</h3>
+              <h3>Recipe 3</h3>
           </div>
           <div className="recipe">
-            <h3>Recipe 4</h3>
+              <h3>Recipe 4</h3>
           </div>
         </div>
       </div>
@@ -1545,5 +1676,63 @@ const sortByOptions = [
   { index: 6, filterby: "max-used-ingredients" },
   { index: 7, filterby: "min-missing-ingredients" },
 ];
+
+function updateLocalStorage(object){
+
+  //get local storage
+  let storage = localStorage.getItem("recipefavourites");
+  let storageArr = JSON.parse(storage);
+
+  //create an empty array and push instance of storage object
+  let array = [];
+  array.push(object);
+
+  //if storage array already exists, replace existing entry if exists and recreate array of objects
+  if (storageArr != null) {
+
+      storageArr.forEach(arr => {
+  
+          if (arr.id === object.id) {
+              return;
+          } else {
+              array.push(arr)
+          }
+      })
+  
+  }
+
+  localStorage.setItem("recipefavourites", JSON.stringify(array));
+
+};
+
+// function to remove item from favourites local storage TODO: will need to move into favourites js
+
+function removeLocalStorage(id){
+
+  //get local storage
+  let storage = localStorage.getItem("recipefavourites");
+  let storageArr = JSON.parse(storage);
+
+  //create an empty array and push instance of storage object
+  let array = [];
+
+  //if storage array already exists, replace existing entry if exists and recreate array of objects
+  if (storageArr != null) {
+
+      storageArr.forEach(arr => {
+  
+          if (arr.id === id) {
+              return;
+          } else {
+              array.push(arr)
+          }
+      })
+  
+  }
+
+  localStorage.setItem("recipefavourites", JSON.stringify(array));
+
+};
+
 
 export default SearchPage;
