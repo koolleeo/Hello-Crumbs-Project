@@ -225,6 +225,8 @@ const favouritesAPIcall = (id) => {
     console.log(response.data);
     console.log($record);
 
+    updateLocalStorage($record);
+
   }).catch(function (error) {
 
     console.error(error);
@@ -1626,6 +1628,34 @@ const sortByOptions = [
   { index: 7, filterby: "min-missing-ingredients" },
   
 ];
+
+function updateLocalStorage(object){
+
+  //get local storage
+  let storage = localStorage.getItem("recipefavourites");
+  let storageArr = JSON.parse(storage);
+
+  //create an empty array and push instance of storage object
+  let array = [];
+  array.push(object);
+
+  //if storage array already exists, replace existing entry if exists and recreate array of objects
+  if (storageArr != null) {
+
+      storageArr.forEach(arr => {
+  
+          if (arr.id === object.id) {
+              return;
+          } else {
+              array.push(arr)
+          }
+      })
+  
+  }
+
+  localStorage.setItem("recipefavourites", JSON.stringify(array));
+
+}
 
 
 export default SearchPage;
