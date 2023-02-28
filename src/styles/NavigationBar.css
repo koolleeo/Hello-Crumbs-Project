@@ -4,6 +4,7 @@
   padding-right: 40px;
   background-color: #12f889;
   text-decoration: none;
+  box-shadow: 0 3px 3px 0px rgba(176, 175, 175, 0.4);
 }
 
 .links {
@@ -19,7 +20,7 @@
   color: white;
   text-decoration: none;
   margin: 20px;
-  font-size: 20px;
+  font-size: 25px;
 }
 
 .navigationbar a:hover {
@@ -41,7 +42,7 @@
 
 .toggleButton button {
   height: 50px;
-  margin-right: 20px;
+  margin-right: 10px;
   background-color: transparent !important;
   border: none;
   box-shadow: none;

@@ -1,0 +1,72 @@
+.hero-section {
+  width: 100%;
+  text-align: center;
+  filter: opacity(0.8);
+}
+
+.hero-section:hover {
+  filter: opacity(1);
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+h1 {
+  position: absolute;
+  color: white;
+  width: 50%;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  background-color: rgb(27, 27, 27, 0.2);
+  padding: 10px 30px;
+  font-size: 35px;
+}
+
+h4 {
+  position: absolute;
+  width: 45%;
+  height: fit-content;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  background-color: rgb(27, 27, 27, 0.2);
+  padding: 10px 30px;
+  font-size: 25px;
+}
+
+@media only screen and (max-width: 900px) {
+  h1 {
+    width: 70%;
+    top: 30%;
+    font-size: 25px;
+  }
+
+  h4 {
+    width: 50%;
+    top: 70%;
+    font-size: 15px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  h1 {
+    width: 70%;
+    top: 30%;
+    font-size: 15px;
+  }
+
+  h4 {
+    width: 50%;
+    top: 70%;
+    font-size: 12px;
+  }
+}

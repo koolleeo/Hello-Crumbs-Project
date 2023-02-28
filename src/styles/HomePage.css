@@ -1,13 +1,1 @@
-.welcome-msg button,
-.brief-about-us button {
-  height: auto;
-  background-color: lightgray !important;
-  padding: 20px;
-  margin: 10px;
-}
-.welcome-msg,
-.brief-about-us {
-  display: flex;
-  justify-content: center;
-  margin: 10px;
-}
+
