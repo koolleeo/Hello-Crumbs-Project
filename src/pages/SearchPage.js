@@ -17,47 +17,48 @@ const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 function SearchPage() {
 
-  // define state for ingredients selection
+// define state for ingredients selection
 const [selectedValues, setSelectedValues] = useState([]);
 
-  // define state for cuisine selection
+// define state for cuisine selection
 const [cuisine, setCuisine] = useState([]);
 
-  // define state for meal type
+// define state for meal type
 const [mealType, setMealType] = useState([]);
 
-  // define state for intolerances
+// define state for intolerances
 const [intolerance, setIntolerance] = useState([]);
 
-  // define state for exclude cuisine checkbox
+// define state for exclude cuisine checkbox
 const [option, setOption] = useState(true);
 
-  // define state for ingredients to exclude
+// define state for ingredients to exclude
 const [excludedValues, setExcludedValues] = useState([]);
 
-  // define state for Diet Type
+// define state for Diet Type
 const [dietType, setDietType] = useState([]);
 
 // define state for filter by options
-const [sortBy, setSortBy] = useState([]);
+const [sortBy, setSortBy] = useState(null);
 
 // define state for switch
 const [switchBy, setSwitchBy] = useState([]);
 
+// define state for max time
+const [maxTime, setMaxTime] = useState(null)
+
 
 // create click handler function that triggers API call
+
 const clickHandler = () => {
 
 // build api call url parameters based on user input
 
 // ingredients selector
-
-// let $selectedValues = '&query=';
 let $selectedValues = '';
      
 if(selectedValues===null||selectedValues.length===0) {
 
-  // $selectedValues = `&query=chicken,spinach,cream`;
   $selectedValues = `chicken,spinach,cream`;
 
 } else {
@@ -70,8 +71,6 @@ if(selectedValues===null||selectedValues.length===0) {
 };
 
 // cuisine selector
-
-// let $cuisine = '&cuisine=';
 let $cuisine = '';
      
 if(cuisine===null||cuisine.length===0) {
@@ -87,15 +86,11 @@ if(cuisine===null||cuisine.length===0) {
 }
 
 // meal type selector
-
-// let $mealType = '&type=';
 let $mealType = '';
       
 mealType.length === 0 ? $mealType = '' : $mealType = `${$mealType}${mealType.type}`
 
 // intolerances selector
-
-// let $intolerance = '&intolerances=';
 let $intolerance = '';
      
 if(intolerance===null||intolerance.length===0) {
@@ -112,8 +107,6 @@ intolerance.forEach((arr, index) => {
 };
 
 // excluded ingredients selector
-
-// let $excludedValues = '&excludeIngredients=';
 let $excludedValues = '';
      
 if(excludedValues===null||excludedValues.length===0) {
@@ -130,8 +123,6 @@ excludedValues.forEach((arr, index) => {
 };
 
 // diet selector
-
-// let $dietType = '&diet=';
 let $dietType = '';
      
 if(dietType===null||dietType.length===0) {
@@ -147,31 +138,21 @@ if(dietType===null||dietType.length===0) {
 }
 
 // sort option
-
-// let $sortBy = '&sort=';
 let $sortBy = '';
       
-switchBy.length === 0 ? $sortBy = `` : $sortBy = `${$sortBy}`
+sortBy === null ? $sortBy = `` : $sortBy = `${sortBy.filterby}`;
 
 // sort direction
-
-// let $switchBy = '&sortDirection=';
 let $switchBy = '';
       
 switchBy.length === 0 || switchBy === true ? $switchBy = `${$switchBy}desc` : $switchBy = `${$switchBy}asc`
 
+// max time
+let $maxTime = '';
 
-// test output
-console.log($selectedValues, $cuisine, $mealType,$intolerance,$excludedValues,$dietType, $switchBy, $sortBy)
+maxTime === null || maxTime[0] === '' ? $maxTime = `` : $maxTime = `${maxTime}`;
 
-// plan B
-// const APIkey = `apiKey=be7afc61d90741a1a46cbf724312a257`;
-// const searchURL = `https://api.spoonacular.com/recipes/complexSearch?addRecipeInformation=true&addRecipeNutrition=true&`;
 
-// API get request using Axios
-
-// axios.get(`${searchURL}${APIkey}${$selectedValues}${$cuisine}${$mealType}${$intolerance}${$excludedValues}${$dietType}${$sortBy}${$switchBy}`)
-// .then(response => {console.log(response)}); //test
 
 const options = {
   method: 'GET',
@@ -186,7 +167,7 @@ const options = {
     excludeIngredients: `${$excludedValues}`,
     addRecipeInformation: 'true',
     addRecipeNutrition: 'true',
-    maxReadyTime: '120',
+    maxReadyTime: $maxTime === '' ? '999' : `${$maxTime}`,
     sort: `${$sortBy}`,
     sortDirection: `${$switchBy}`
   },
@@ -196,11 +177,9 @@ const options = {
   }
 };
 
-console.log(options.headers)
 
 axios.request(options).then(function (response) {
 	console.log(response.data);
-  console.log(options)
 }).catch(function (error) {
 	console.error(error);
 });
@@ -215,227 +194,227 @@ axios.request(options).then(function (response) {
           <div className="ingredients-search">
             <h2>Ingredient Search</h2>
 
-            {/* <div className='search-items'>
-              <div>
-                <input type="text" placeholder='Search your ingredients here...' />
-              </div>
-              <div className='ingredients-list'>
-                <h3>Ingredients</h3>
-              </div>
-            </div> */}
+{/* Material UI (MUI) components */}
 
-            {/* Material UI (MUI) components */}
+<Stack spacing={3} sx={{ width: 500, marginLeft: 3 }}>
+  <Autocomplete
+    multiple
+    id="tags-outlined"
+    options={top1000ingredients}
+    getOptionLabel={(option) => option.ingredients}
+    filterSelectedOptions
+    onChange={(event, newValue) => {
+      event.preventDefault();
+      setSelectedValues(newValue);
+    }}
+    renderInput={(params) => (
+      <TextField
+        {...params}
+        label="Ingredients selection"
+        placeholder="Favorites"
+      />
+    )}
+  />
 
-            <Stack spacing={3} sx={{ width: 500, marginLeft: 3 }}>
-              <Autocomplete
-                multiple
-                id="tags-outlined"
-                options={top1000ingredients}
-                getOptionLabel={(option) => option.ingredients}
-                filterSelectedOptions
-                onChange={(event, newValue) => {
-                  event.preventDefault();
-                  setSelectedValues(newValue);
-                }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Ingredients selection"
-                    placeholder="Favorites"
-                  />
-                )}
-              />
+  {/* cuisine */}
 
-              {/* cuisine */}
+  <Autocomplete
+    multiple
+    id="checkboxes-tags-demo"
+    options={topCuisine}
+    disableCloseOnSelect
+    getOptionLabel={(option) => option.cuisine}
+    onChange={(event, newValue) => {
+      event.preventDefault();
+      setCuisine(newValue);
+    }}
+    renderOption={(props, option, { selected }) => (
+      <li {...props}>
+        <Checkbox
+          icon={icon}
+          checkedIcon={checkedIcon}
+          style={{ marginRight: 8 }}
+          checked={selected}
+        />
+        {option.cuisine}
+      </li>
+    )}
+    style={{ width: 500 }}
+    renderInput={(params) => (
+      <TextField
+        {...params}
+        label="Cuisine Selections"
+        placeholder="Cuisine Selections"
+      />
+    )}
+  />
 
-              <Autocomplete
-                multiple
-                id="checkboxes-tags-demo"
-                options={topCuisine}
-                disableCloseOnSelect
-                getOptionLabel={(option) => option.cuisine}
-                onChange={(event, newValue) => {
-                  event.preventDefault();
-                  setCuisine(newValue);
-                }}
-                renderOption={(props, option, { selected }) => (
-                  <li {...props}>
-                    <Checkbox
-                      icon={icon}
-                      checkedIcon={checkedIcon}
-                      style={{ marginRight: 8 }}
-                      checked={selected}
-                    />
-                    {option.cuisine}
-                  </li>
-                )}
-                style={{ width: 500 }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Cuisine Selections"
-                    placeholder="Cuisine Selections"
-                  />
-                )}
-              />
+  {/* meal type */}
 
-              {/* meal type */}
+  <Autocomplete
+    disablePortal
+    id="combo-box"
+    options={meal}
+    getOptionLabel={(option) => option.type}
+    onChange={(event, newValue) => {
+      event.preventDefault();
+      setMealType(newValue);
+    }}
+    sx={{ width: 300 }}
+    renderInput={(params) => (
+      <TextField {...params} label="Meal type" />
+    )}
+  />
 
-              <Autocomplete
-                disablePortal
-                id="combo-box"
-                options={meal}
-                getOptionLabel={(option) => option.type}
-                onChange={(event, newValue) => {
-                  event.preventDefault();
-                  setMealType(newValue);
-                }}
-                sx={{ width: 300 }}
-                renderInput={(params) => (
-                  <TextField {...params} label="Meal type" />
-                )}
-              />
+  {/* diet definitions */}
 
-              {/* diet definitions */}
+  <Autocomplete
+    multiple
+    id="checkboxes-tags-demo"
+    options={dietDefinition}
+    disableCloseOnSelect
+    getOptionLabel={(option) => option.type}
+    onChange={(event, newValue) => {
+      event.preventDefault();
+      setDietType(newValue);
+    }}
+    renderOption={(props, option, { selected }) => (
+      <li {...props}>
+        <Checkbox
+          icon={icon}
+          checkedIcon={checkedIcon}
+          style={{ marginRight: 8 }}
+          checked={selected}
+        />
+        {option.type}
+      </li>
+    )}
+    style={{ width: 500 }}
+    renderInput={(params) => (
+      <TextField
+        {...params}
+        label="Diet Selections"
+        placeholder="Diet Selections"
+      />
+    )}
+  />
 
-              <Autocomplete
-                multiple
-                id="checkboxes-tags-demo"
-                options={dietDefinition}
-                disableCloseOnSelect
-                getOptionLabel={(option) => option.type}
-                onChange={(event, newValue) => {
-                  event.preventDefault();
-                  setDietType(newValue);
-                }}
-                renderOption={(props, option, { selected }) => (
-                  <li {...props}>
-                    <Checkbox
-                      icon={icon}
-                      checkedIcon={checkedIcon}
-                      style={{ marginRight: 8 }}
-                      checked={selected}
-                    />
-                    {option.type}
-                  </li>
-                )}
-                style={{ width: 500 }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Diet Selections"
-                    placeholder="Diet Selections"
-                  />
-                )}
-              />
+  {/* intolerances */}
 
-              {/* intolerances */}
+  <Autocomplete
+    multiple
+    id="checkboxes-tags-demo"
+    options={intolerances}
+    disableCloseOnSelect
+    getOptionLabel={(option) => option.type}
+    onChange={(event, newValue) => {
+      event.preventDefault();
+      setIntolerance(newValue);
+    }}
+    renderOption={(props, option, { selected }) => (
+      <li {...props}>
+        <Checkbox
+          icon={icon}
+          checkedIcon={checkedIcon}
+          style={{ marginRight: 8 }}
+          checked={selected}
+        />
+        {option.type}
+      </li>
+    )}
+    style={{ width: 500 }}
+    renderInput={(params) => (
+      <TextField
+        {...params}
+        label="Do you have any intolerances?"
+        placeholder="Intolerances"
+      />
+    )}
+  />
 
-              <Autocomplete
-                multiple
-                id="checkboxes-tags-demo"
-                options={intolerances}
-                disableCloseOnSelect
-                getOptionLabel={(option) => option.type}
-                onChange={(event, newValue) => {
-                  event.preventDefault();
-                  setIntolerance(newValue);
-                }}
-                renderOption={(props, option, { selected }) => (
-                  <li {...props}>
-                    <Checkbox
-                      icon={icon}
-                      checkedIcon={checkedIcon}
-                      style={{ marginRight: 8 }}
-                      checked={selected}
-                    />
-                    {option.type}
-                  </li>
-                )}
-                style={{ width: 500 }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Do you have any intolerances?"
-                    placeholder="Intolerances"
-                  />
-                )}
-              />
-
-              <FormGroup>
-                <FormControlLabel
-                  control={<Checkbox defaultChecked />}
-                  label="Any ingredients you want to exclude?"
-                  onChange={(event, newvalue) => {
-                    event.preventDefault();
-                    setOption(newvalue);
-                  }}
-                />
-              </FormGroup>
-
-                    {/* food to exclude */}
-
-                    <Autocomplete
-                        multiple
-                        id="tags-outlined"
-                        options={top1000ingredients}
-                        getOptionLabel={(option) => option.ingredients}
-                                filterSelectedOptions
-
-                        onChange={(event, newValue) => {
-                            event.preventDefault();
-                            setExcludedValues(newValue);
-                          }}
-
-                        renderInput={(params) => (
-
-                          <TextField
-                            {...params}
-                            label="Ingredients to exclude"
-                            placeholder="do not include"
-                          />
-
-                        )}
-                />
-
-                
-                  {/* filter by Options */}
-
-                  <Autocomplete
-                    disablePortal
-                    id="combo-box"
-                    options={sortByOptions}
-                    getOptionLabel={(option) => option.filterby}
-
-                    onChange={(event, newValue) =>{
-                      event.preventDefault();
-                      setSortBy(newValue);
-                    }}
-
-                    sx={{ width: 300 }}
-                    renderInput={(params) => 
-                      
-                    <TextField {...params} label="Sort by" />
-
-                    }
-
-                  />
   <FormGroup>
-  <FormControlLabel
+    <FormControlLabel
+      control={<Checkbox defaultChecked />}
+      label="Any ingredients you want to exclude?"
+      onChange={(event, newvalue) => {
+        event.preventDefault();
+        setOption(newvalue);
+      }}
+    />
+  </FormGroup>
+
+        {/* food to exclude */}
+
+        <Autocomplete
+multiple
+id="tags-outlined"
+options={top1000ingredients}
+getOptionLabel={(option) => option.ingredients}
+        filterSelectedOptions
+
+onChange={(event, newValue) => {
+    event.preventDefault();
+    setExcludedValues(newValue);
+  }}
+
+renderInput={(params) => (
+
+  <TextField
+    {...params}
+    label="Ingredients to exclude"
+    placeholder="do not include"
+  />
+
+)}
+ />
+
+ 
+{/* filter by Options */}
+
+<Autocomplete
+  disablePortal
+  id="combo-box"
+  options={sortByOptions}
+  getOptionLabel={(option) => option.filterby}
+
+  onChange={(event, newValue) =>{
+ event.preventDefault();
+ setSortBy(newValue);
+  }}
+
+  sx={{ width: 300 }}
+  renderInput={(params) => 
+ 
+  <TextField {...params} label="Sort by" />
+
+  }
+
+/>
+<FormGroup>
+    <FormControlLabel
     control={
       <Switch
-        defaultChecked
-        onChange={(event, newValue) => {
-          setSwitchBy(newValue);
-        }}
+      defaultChecked
+      onChange={(event, newValue) => {
+    setSwitchBy(newValue);
+      }}
       />
     }
     label="Asc / Desc"
-  />
+    />
 </FormGroup>
 
-
-                </Stack>
+<TextField 
+  id="outlined-basic" 
+  label="Max ready time (Minutes)" 
+  variant="outlined" 
+  sx={{ width: 250 }}
+  onChange={(event) => {
+  setMaxTime([event.target.value]);
+}}
+/>
+  
+</Stack>
 
           </div>
         </div>
@@ -446,16 +425,16 @@ axios.request(options).then(function (response) {
         <h3>What can you make?</h3>
         <div className="recipes">
           <div className="recipe">
-            <h3>Recipe 1</h3>
+              <h3>Recipe 1</h3>
           </div>
           <div className="recipe">
-            <h3>Recipe 2</h3>
+              <h3>Recipe 2</h3>
           </div>
           <div className="recipe">
-            <h3>Recipe 3</h3>
+              <h3>Recipe 3</h3>
           </div>
           <div className="recipe">
-            <h3>Recipe 4</h3>
+              <h3>Recipe 4</h3>
           </div>
         </div>
       </div>
