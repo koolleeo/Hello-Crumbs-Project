@@ -1655,7 +1655,36 @@ function updateLocalStorage(object){
 
   localStorage.setItem("recipefavourites", JSON.stringify(array));
 
-}
+};
+
+// function to remove item from favourites local storage TODO: will need to move into favourites js
+
+function removeLocalStorage(id){
+
+  //get local storage
+  let storage = localStorage.getItem("recipefavourites");
+  let storageArr = JSON.parse(storage);
+
+  //create an empty array and push instance of storage object
+  let array = [];
+
+  //if storage array already exists, replace existing entry if exists and recreate array of objects
+  if (storageArr != null) {
+
+      storageArr.forEach(arr => {
+  
+          if (arr.id === id) {
+              return;
+          } else {
+              array.push(arr)
+          }
+      })
+  
+  }
+
+  localStorage.setItem("recipefavourites", JSON.stringify(array));
+
+};
 
 
 export default SearchPage;
