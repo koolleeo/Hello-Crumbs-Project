@@ -2,180 +2,175 @@ import React from "react";
 import { useState } from "react";
 import "../styles/SearchPage.css";
 
-import Autocomplete from '@mui/material/Autocomplete';
-import TextField from '@mui/material/TextField';
-import Stack from '@mui/material/Stack';
+import Autocomplete from "@mui/material/Autocomplete";
+import TextField from "@mui/material/TextField";
+import Stack from "@mui/material/Stack";
 import { FormGroup, FormControlLabel, Checkbox, Switch } from "@mui/material";
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import SubmitOptionsButton from '../components/SubmitOptionsBtn';
-import axios from 'axios';
+import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import SubmitOptionsButton from "../components/SubmitOptionsBtn";
+// import axios from "axios";
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
-
 function SearchPage() {
   // define state for ingredients selection
 
-const [selectedValues, setSelectedValues] = useState([]);
+  const [selectedValues, setSelectedValues] = useState([]);
 
   // define state for cuisine selection
-  
-const [cuisine, setCuisine] = useState([]);
+
+  const [cuisine, setCuisine] = useState([]);
 
   // define state for meal type
 
-const [mealType, setMealType] = useState([]);
+  const [mealType, setMealType] = useState([]);
 
   // define state for intolerances
 
-const [intolerance, setIntolerance] = useState([]);
+  const [intolerance, setIntolerance] = useState([]);
 
   // define state for exclude cuisine checkbox
 
-const [option, setOption] = useState(true);
+  const [option, setOption] = useState(true);
 
   // define state for ingredients to exclude
 
-const [excludedValues, setExcludedValues] = useState([]);
+  const [excludedValues, setExcludedValues] = useState([]);
 
   // define state for Diet Type
 
-const [dietType, setDietType] = useState([]);
+  const [dietType, setDietType] = useState([]);
 
-// define state for filter by options
+  // define state for filter by options
 
-const [sortBy, setSortBy] = useState([]);
+  const [sortBy, setSortBy] = useState([]);
 
-// define state for switch
+  // define state for switch
 
-const [switchBy, setSwitchBy] = useState([]);
+  const [switchBy, setSwitchBy] = useState([]);
 
+  // create click handler function that triggers API call
 
-// create click handler function that triggers API call
+  const clickHandler = () => {
+    // build api call url parameters based on user input
 
-const clickHandler = () => {
+    // ingredients selector
 
-// build api call url parameters based on user input
+    let $selectedValues = "&query=";
 
-// ingredients selector
+    if (selectedValues === null || selectedValues.length === 0) {
+      $selectedValues = `&query=chicken,spinach,cream`;
+    } else {
+      selectedValues.forEach((arr, index) => {
+        $selectedValues +=
+          index === selectedValues.length - 1
+            ? `${arr.ingredients}`
+            : `${arr.ingredients},`;
+      });
+    }
 
-let $selectedValues = '&query=';
-     
-if(selectedValues===null||selectedValues.length===0) {
+    // cuisine selector
 
-  $selectedValues = `&query=chicken,spinach,cream`;
+    let $cuisine = "&cuisine=";
 
-} else {
+    if (cuisine === null || cuisine.length === 0) {
+      $cuisine = ``;
+    } else {
+      cuisine.forEach((arr, index) => {
+        $cuisine +=
+          index === cuisine.length - 1 ? `${arr.cuisine}` : `${arr.cuisine},`;
+      });
+    }
 
-  selectedValues.forEach((arr, index) => {
-    $selectedValues += index === selectedValues.length -1 ? `${arr.ingredients}` : `${arr.ingredients},`
+    // meal type selector
 
-  })
+    let $mealType = "&type=";
 
-};
+    mealType.length === 0
+      ? ($mealType = "")
+      : ($mealType = `${$mealType}${mealType.type}`);
 
-// cuisine selector
+    // intolerances selector
 
-let $cuisine = '&cuisine=';
-     
-if(cuisine===null||cuisine.length===0) {
+    let $intolerance = "&intolerances=";
 
-  $cuisine = ``;
+    if (intolerance === null || intolerance.length === 0) {
+      $intolerance = ``;
+    } else {
+      intolerance.forEach((arr, index) => {
+        $intolerance +=
+          index === intolerance.length - 1 ? `${arr.type}` : `${arr.type},`;
+      });
+    }
 
-} else {
+    // excluded ingredients selector
 
-  cuisine.forEach((arr, index) => {
-    $cuisine += index === cuisine.length -1 ? `${arr.cuisine}` : `${arr.cuisine},`
+    let $excludedValues = "&excludeIngredients=";
 
-  })
-}
+    if (excludedValues === null || excludedValues.length === 0) {
+      $excludedValues = ``;
+    } else {
+      excludedValues.forEach((arr, index) => {
+        $excludedValues +=
+          index === excludedValues.length - 1
+            ? `${arr.ingredients}`
+            : `${arr.ingredients},`;
+      });
+    }
 
-// meal type selector
+    // diet selector
 
-let $mealType = '&type=';
-      
-mealType.length === 0 ? $mealType = '' : $mealType = `${$mealType}${mealType.type}`
+    let $dietType = "&diet=";
 
-// intolerances selector
+    if (dietType === null || dietType.length === 0) {
+      $dietType = ``;
+    } else {
+      dietType.forEach((arr, index) => {
+        $dietType +=
+          index === dietType.length - 1 ? `${arr.type}` : `${arr.type},`;
+      });
+    }
 
-let $intolerance = '&intolerances=';
-     
-if(intolerance===null||intolerance.length===0) {
+    // sort option
 
-$intolerance = ``;
+    let $sortBy = "&sort=";
 
-} else {
+    switchBy.length === 0 ? ($sortBy = ``) : ($sortBy = `${$sortBy}`);
 
-intolerance.forEach((arr, index) => {
-    $intolerance += index === intolerance.length -1 ? `${arr.type}` : `${arr.type},`
+    // sort direction
 
-})
+    let $switchBy = "&sortDirection=";
 
-};
+    switchBy.length === 0 || switchBy === true
+      ? ($switchBy = `${$switchBy}desc`)
+      : ($switchBy = `${$switchBy}asc`);
 
-// excluded ingredients selector
+    // test output
+    console.log(
+      $selectedValues,
+      $cuisine,
+      $mealType,
+      $intolerance,
+      $excludedValues,
+      $dietType,
+      switchBy,
+      $switchBy,
+      sortBy,
+      mealType,
+      $sortBy
+    );
 
-let $excludedValues = '&excludeIngredients=';
-     
-if(excludedValues===null||excludedValues.length===0) {
+    const APIkey = `apiKey=be7afc61d90741a1a46cbf724312a257`;
+    const searchURL = `https://api.spoonacular.com/recipes/complexSearch?addRecipeInformation=true&addRecipeNutrition=true&`;
 
-$excludedValues = ``;
+    // API get request using Axios
 
-} else {
+    // axios.get(`${searchURL}${APIkey}${$selectedValues}${$cuisine}${$mealType}${$intolerance}${$excludedValues}${$dietType}`)
+    // .then(response => {console.log(response)}); //test
+  };
 
-excludedValues.forEach((arr, index) => {
-    $excludedValues += index === excludedValues.length -1 ? `${arr.ingredients}` : `${arr.ingredients},`
-
-})
-
-};
-
-// diet selector
-
-let $dietType = '&diet=';
-     
-if(dietType===null||dietType.length===0) {
-
-  $dietType = ``;
-
-} else {
-
-  dietType.forEach((arr, index) => {
-    $dietType += index === dietType.length -1 ? `${arr.type}` : `${arr.type},`
-
-  })
-}
-
-// sort option
-
-let $sortBy = '&sort=';
-      
-switchBy.length === 0 ? $sortBy = `` : $sortBy = `${$sortBy}`
-
-// sort direction
-
-let $switchBy = '&sortDirection=';
-      
-switchBy.length === 0 || switchBy === true ? $switchBy = `${$switchBy}desc` : $switchBy = `${$switchBy}asc`
-
-
-// test output
-console.log($selectedValues, $cuisine, $mealType,$intolerance,$excludedValues,$dietType, switchBy, $switchBy, sortBy, mealType, $sortBy)
-
-
-const APIkey = `apiKey=be7afc61d90741a1a46cbf724312a257`;
-const searchURL = `https://api.spoonacular.com/recipes/complexSearch?addRecipeInformation=true&addRecipeNutrition=true&`;
-
-// API get request using Axios
-
-// axios.get(`${searchURL}${APIkey}${$selectedValues}${$cuisine}${$mealType}${$intolerance}${$excludedValues}${$dietType}`)
-// .then(response => {console.log(response)}); //test
-      
-  }
-
-  
   return (
     <div>
       <div className="header">
@@ -341,73 +336,60 @@ const searchURL = `https://api.spoonacular.com/recipes/complexSearch?addRecipeIn
                 />
               </FormGroup>
 
-                    {/* food to exclude */}
+              {/* food to exclude */}
 
-                    <Autocomplete
-                        multiple
-                        id="tags-outlined"
-                        options={top1000ingredients}
-                        getOptionLabel={(option) => option.ingredients}
-                                filterSelectedOptions
-
-                        onChange={(event, newValue) => {
-                            event.preventDefault();
-                            setExcludedValues(newValue);
-                          }}
-
-                        renderInput={(params) => (
-
-                          <TextField
-                            {...params}
-                            label="Ingredients to exclude"
-                            placeholder="do not include"
-                          />
-
-                        )}
-                />
-
-                
-                  {/* filter by Options */}
-
-                  <Autocomplete
-                    disablePortal
-                    id="combo-box"
-                    options={sortByOptions}
-                    getOptionLabel={(option) => option.filterby}
-
-                    onChange={(event, newValue) =>{
-                      event.preventDefault();
-                      setSortBy(newValue);
-                    }}
-
-                    sx={{ width: 300 }}
-                    renderInput={(params) => 
-                      
-                    <TextField {...params} label="Sort by" />
-
-                    }
-
+              <Autocomplete
+                multiple
+                id="tags-outlined"
+                options={top1000ingredients}
+                getOptionLabel={(option) => option.ingredients}
+                filterSelectedOptions
+                onChange={(event, newValue) => {
+                  event.preventDefault();
+                  setExcludedValues(newValue);
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Ingredients to exclude"
+                    placeholder="do not include"
                   />
-  <FormGroup>
-  <FormControlLabel
-    control={
-      <Switch
-        defaultChecked
-        onChange={(event, newValue) => {
-          setSwitchBy(newValue);
-        }}
-      />
-    }
-    label="Asc / Desc"
-  />
-</FormGroup>
+                )}
+              />
 
+              {/* filter by Options */}
 
-                </Stack>
-
+              <Autocomplete
+                disablePortal
+                id="combo-box"
+                options={sortByOptions}
+                getOptionLabel={(option) => option.filterby}
+                onChange={(event, newValue) => {
+                  event.preventDefault();
+                  setSortBy(newValue);
+                }}
+                sx={{ width: 300 }}
+                renderInput={(params) => (
+                  <TextField {...params} label="Sort by" />
+                )}
+              />
+              <FormGroup>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      defaultChecked
+                      onChange={(event, newValue) => {
+                        setSwitchBy(newValue);
+                      }}
+                    />
+                  }
+                  label="Asc / Desc"
+                />
+              </FormGroup>
+            </Stack>
           </div>
         </div>
-        <SubmitOptionsButton clickHandler={clickHandler}/>
+        <SubmitOptionsButton clickHandler={clickHandler} />
       </div>
 
       <div className="recipes-container">
@@ -1555,7 +1537,6 @@ const dietDefinition = [
 // filter by options
 
 const sortByOptions = [
-
   { index: 1, filterby: "popularity" },
   { index: 2, filterby: "healthiness" },
   { index: 3, filterby: "price" },
@@ -1563,9 +1544,6 @@ const sortByOptions = [
   { index: 5, filterby: "random" },
   { index: 6, filterby: "max-used-ingredients" },
   { index: 7, filterby: "min-missing-ingredients" },
-  
 ];
 
-
 export default SearchPage;
-
