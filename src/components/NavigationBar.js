@@ -38,7 +38,7 @@ const NavigationBar = (props) => {
         <div className="links">
           <Link to="/">Home</Link>
           <Link to="/Search">Search</Link>
-          <Link to="/Recipes">Recipes</Link>
+          {/* <Link to="/Recipes">Recipes</Link> */}
           <Link to="/FavouritesPage">Favourites</Link>
           <Link to="/Contact">Contact</Link>
         </div>
