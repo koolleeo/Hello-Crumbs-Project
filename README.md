@@ -19,3 +19,10 @@ On clicking the Get Started button, the user is navigated to search page with Se
 Search can be made based on the following categories - Ingredient selection, Cuisine, Meal type and Diet definition. Seacrh can also be made based on allergic inclinations and cooking duration...
 The search bars are drop-down input field-type that provides suggestions as the user enters the ingredient. The search recipe takes a minimum of 3 ingredients to return a list of recipes.
 When the user clicks on a recipe, the choice is stacked in a pane by the side of the search bar.
+
+## Link to the Deployed Page
+
+## Link to the Repo
+
+## Screenshot of the page (wide & mobile version)
+
