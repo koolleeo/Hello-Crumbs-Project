@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ReorderIcon from "@mui/icons-material/Reorder";
+import Logo from "../assets/logo.png";
 // import "../App.css";
 import "../styles/NavigationBar.css";
 
-function NavigationBar() {
+const NavigationBar = (props) => {
+  const navigate = useNavigate();
   const [expandNavigationBar, setExpandNavigationBar] = useState(false);
 
   const location = useLocation();
@@ -28,16 +31,20 @@ function NavigationBar() {
           <ReorderIcon />
         </button>
       </div>
-
-      <div className="links">
-        <Link to="/">Home</Link>
-        <Link to="/Search">Search</Link>
-        <Link to="/Recipes">Recipes</Link>
-        <Link to="/FavouritesPage">Favourites</Link>
-        <Link to="/Contact">Contact</Link>
+      <div className="header">
+        <div>
+          <img className="logo" src={Logo} onClick={() => navigate("/")} />
+        </div>
+        <div className="links">
+          <Link to="/">Home</Link>
+          <Link to="/Search">Search</Link>
+          <Link to="/Recipes">Recipes</Link>
+          <Link to="/FavouritesPage">Favourites</Link>
+          <Link to="/Contact">Contact</Link>
+        </div>
       </div>
     </div>
   );
-}
+};
 
 export default NavigationBar;

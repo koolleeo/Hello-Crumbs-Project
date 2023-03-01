@@ -6,7 +6,6 @@ import { RecipeList } from "../helpers/RecipeList";
 function Recipes() {
   return (
     <div className="recipes">
-      {/* <h1>What can you prepare?</h1> */}
       <div className="recipeList">
         {RecipeList.map((recipe, idx) => {
           return (
