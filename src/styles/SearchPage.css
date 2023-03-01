@@ -1,22 +1,32 @@
 .search-container {
   display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: black solid 2px;
 }
 .ingredients-search {
-  width: 30%;
+  width: 50%;
   display: flex;
   flex-direction: column;
+  align-items: self-start;
+  border: green solid 2px;
 }
 
-.ingredients-search input {
-  width: 50%;
-}
-.seach-items {
-  display: flex;
-  flex-direction: row;
-}
-.ingredients-list {
+.ingredients-search input .seach-items .ingredients-list {
   background-color: white;
-  width: 50%;
+  width: 70%;
+}
+
+.h5-first {
+  margin-left: 25px;
+  margin-bottom: 20px;
+  font-size: 15px;
+  color: black !important;
+}
+
+.h5-second {
+  color: black !important;
+  font-size: 15px;
 }
 
 .recipes-container {
@@ -35,4 +45,23 @@
   background-color: lightgray;
   margin: 20px;
   border-radius: 10px;
+}
+
+.css-19n2uo2-MuiStack-root button {
+  box-shadow: none !important;
+  width: 30px !important;
+  height: 30px !important;
+  margin-left: 10px !important;
+  color: white !important;
+}
+
+.MuiButtonBase-root {
+  color: #06b660 !important;
+}
+
+.MuiButton-root {
+  color: white !important;
+  width: fit-content !important;
+  height: fit-content !important;
+  padding: 5px 10px !important;
 }

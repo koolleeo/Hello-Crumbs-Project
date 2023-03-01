@@ -6,9 +6,9 @@ import "../styles/HomePage.css";
 function HomePage() {
   return (
     <div>
-<HeroSection />
-<StepsSection />
-  </div>
+      <HeroSection />
+      <StepsSection />
+    </div>
   );
 }
 

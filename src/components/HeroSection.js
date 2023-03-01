@@ -10,14 +10,17 @@ function HeroSection() {
           <img src={HeroImage} />
           <div className="text">
             <h1 className="mb-3">
-              Ever wondered how to put together the ingredients you've already
-              got at home? We hear you!
+              We are here to make the most out of your crumbs
             </h1>
             <h4 className="mb-3">
-              Let's not waste time and energy in searching for recipes that
-              don't match your ingredients. <br></br>
-              <br></br>Instead we will show you recipes that require the crumbs
-              you already have - EASY!
+              Ever struggled to find a recipe that matches the ingredients
+              you've already got at home? We hear you! <br></br>
+              <br></br>We are here to <b>save your time and energy</b>! Instead
+              of searching the web and looking at the very many recipes of
+              lasagna out there, we will bring you the ones that are the most
+              compatible with the ingredients you already have at home.
+              <br></br>
+              <br></br>Ready? Let's crumb!
             </h4>
           </div>
         </div>
