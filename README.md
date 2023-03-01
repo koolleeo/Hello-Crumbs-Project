@@ -24,5 +24,5 @@ When the user clicks on a recipe, the choice is stacked in a pane by the side of
 
 ## Link to the Repo
 
-## Screenshot of the page (wide & mobile version)
+## Screenshot of the page (full-width & mobile version)
 
