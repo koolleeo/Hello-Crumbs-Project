@@ -30,7 +30,7 @@ function App() {
         <NavigationBar />
         <Routes>
           <Route exact path="/" element={<HomePage />} />
-          <Route path="/Recipes" element={<Recipes />} />
+          {/* <Route path="/Recipes" element={<Recipes />} /> */}
           <Route path="/recipe/:id" element={<RecipeDisplay />} />
           <Route exact path="/search" element={<SearchPage />} />
           <Route exact path="/contact" element={<ContactPage />} />
