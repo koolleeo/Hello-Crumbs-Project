@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from 'react-dom';
 import { useState } from "react";
 import "../styles/SearchPage.css";
 
@@ -10,7 +11,6 @@ import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import SubmitOptionsButton from '../components/SubmitOptionsBtn';
 import axios from 'axios';
-import Recipes from '../pages/Recipes';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -46,8 +46,7 @@ const [sortBy, setSortBy] = useState(null);
 const [switchBy, setSwitchBy] = useState([]);
 
 // define state for max time
-const [maxTime, setMaxTime] = useState(null)
-
+const [maxTime, setMaxTime] = useState(null);
 
 // create click handler function that triggers API call
 
@@ -181,7 +180,30 @@ const options = {
 
 axios.request(options).then(function (response) {
 
-	console.log(response.data);
+  let data = response.data.results;
+	console.log(data);
+  return data;
+
+}).then(data => {
+
+  ReactDOM.render(data.map(data => {
+
+    return (
+
+      <div className="recipes">
+        <div className="recipeList">
+          <div className="recipeCard">
+            <img src={data.image} alt="hey"/>
+            <h3> {data.title} </h3>
+            <a href={data.sourceUrl} target="_blank" rel="noreferrer"><button style={{marginBottom: 4 }}>See More</button></a>
+            <h6>{data.sourceName}</h6>
+          </div>
+        </div>
+      </div>
+
+      )
+
+  }), document.getElementById('recipe-container'));
 
 }).catch(function (error) {
 
@@ -476,8 +498,8 @@ renderInput={(params) => (
 
       <div className="recipes-container">
         <h3>What can you make?</h3>
-        <div className="recipes">
-        <Recipes />
+        <div id="recipe-container"className="recipes">
+        
         </div>
       </div>
     </div>
