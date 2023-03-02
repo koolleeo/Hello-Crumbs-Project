@@ -2,15 +2,15 @@
 
 ## Description
 
-Hello Crumbs is a web applcation which comes handy in many ways, ranging from cubbing wastes to saving time and money, and possibly leading to the discovery of new recipe.
+Hello Crumbs is a web application which comes handy in many ways, ranging from cubbing wastes to saving time and money, and possibly leading to the discovery of new recipe.
 Hello Crumbs is an interactive that takes input of ingredients from a user and returns an array of possible recipe based on the ingredients the user submits...
-It is built on high fedelity front-end development technologies such as react, npm packages, Material UI and asynchronic api-get protocol...
+It is built on high fedelity front-end development technologies such as react.js, npm packages, Material UI and asynchronic api-get protocol...
 
 ## User Story
 
 When a user input at least three (3) randomly selected ingredients in the search input field, the app should return a list of possible recipes strictly from the ingredients, and a suggestion of standard recipes and the missing ingredients needed.
 When a search for a recipe is made,  a list of a variety of the recipe, and the ingredients needed for each variety.
-Additional information of the recipe such as the cooking time, nutirtional values...
+Additional information of the recipe such as the cooking time, nutritional values...
 
 ## Functionality
 
