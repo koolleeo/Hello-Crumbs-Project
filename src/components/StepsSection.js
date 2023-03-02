@@ -22,7 +22,8 @@ const StepsSection = (props) => {
           <h3>Check for crumbs</h3>
 
           <p>
-            Check <b>what ingredients you have</b> in your fridge & cupboard
+            Check your fridge & cupboard for <b>crumbs you have</b> and want to
+            use
           </p>
         </div>
         <div className="arrow-icon">
@@ -35,7 +36,7 @@ const StepsSection = (props) => {
           <h3>Crumbs input</h3>
 
           <p>
-            Let us know what crumbs you have on your hands - we need{" "}
+            Let us know what crumbs you have - we need
             <b>minimum 3 ingredients </b>from you
           </p>
         </div>
@@ -63,7 +64,8 @@ const StepsSection = (props) => {
           <h3>💚 Recipes</h3>
 
           <p>
-            <b>Save your favorite recipes </b> for the future
+            <b>Save your favorite recipes </b> for the future. <br></br>COMING
+            SOON!
           </p>
         </div>
       </div>

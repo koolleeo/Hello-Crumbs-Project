@@ -14,16 +14,28 @@
   justify-content: center;
 }
 
-.logo {
+.logo-wide {
   width: 100px;
   margin-top: 5px;
   margin-bottom: 5px;
   margin-left: 15px;
 }
 
-.logo:hover {
+.logo-wide:hover {
   scale: 1.1;
   cursor: pointer;
+}
+
+.logo-mobile {
+  width: 80px;
+  margin-left: 20px;
+  display: hidden;
+}
+
+.logo-mobile:hover {
+  scale: 1.1;
+  cursor: pointer;
+  display: hidden;
 }
 
 .links {
@@ -52,11 +64,11 @@
   height: 100px;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
 }
 
 .toggleButton svg {
-  font-size: 50px;
+  font-size: 60px;
 }
 
 .toggleButton button {
@@ -75,13 +87,14 @@
 }
 
 #open {
-  height: 100vh;
+  height: 50vh;
 }
 
 #open .links {
   flex-direction: column;
   justify-content: flex-start;
-  margin-top: 100px;
+  margin-top: 30px;
+  padding-bottom: 30px;
 }
 
 #open a {
@@ -99,13 +112,13 @@
     margin: 15px;
   }
 
-  .logo {
+  .logo-wide {
     width: 70px;
   }
 }
 
 @media only screen and (max-width: 600px) {
-  .logo {
+  .logo-wide {
     width: 50px;
   }
 
@@ -125,6 +138,10 @@
   #close a {
     display: none;
   }
+
+  .logo-wide {
+    display: none;
+  }
 }
 
 @media only screen and (min-width: 600px) {
@@ -142,5 +159,9 @@
 
   #open .links {
     flex-direction: row;
+  }
+
+  .logo-mobile {
+    display: flex;
   }
 }
