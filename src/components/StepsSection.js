@@ -36,8 +36,8 @@ const StepsSection = (props) => {
           <h3>Crumbs input</h3>
 
           <p>
-            Let us know what crumbs you have - we need
-            <b>minimum 3 ingredients </b>from you
+            Let us know what crumbs you have -{" "}
+            <b>make it at least 3 ingredients </b>
           </p>
         </div>
         <div className="arrow-icon">

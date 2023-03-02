@@ -7,7 +7,7 @@
   box-shadow: 0 3px 3px 0px rgba(176, 175, 175, 0.4);
 }
 
-.header {
+.header-nav {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -72,9 +72,9 @@
 }
 
 .toggleButton button {
-  height: 50px;
+  height: 40px;
   margin-right: 10px;
-  margin-top: 100px;
+  margin-top: 80px;
   background-color: transparent !important;
   border: none;
   box-shadow: none;
