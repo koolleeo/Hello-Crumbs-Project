@@ -21,6 +21,9 @@ const NavigationBar = (props) => {
     <div className="navigationbar" id={expandNavigationBar ? "open" : "close"}>
       {/* Button used for expanding the navbar on a smaller screen */}
       <div className="toggleButton">
+        <div>
+          <img className="logo-mobile" src={Logo} onClick={() => navigate("/")} />
+        </div>
         {/* Function inside the button to set expand state when the button is clicked  */}
         <button
           onClick={() => {
@@ -33,7 +36,7 @@ const NavigationBar = (props) => {
       </div>
       <div className="header">
         <div>
-          <img className="logo" src={Logo} onClick={() => navigate("/")} />
+          <img className="logo-wide" src={Logo} onClick={() => navigate("/")} />
         </div>
         <div className="links">
           <Link to="/">Home</Link>
