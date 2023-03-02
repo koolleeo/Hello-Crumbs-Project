@@ -11,6 +11,8 @@ import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import SubmitOptionsButton from '../components/SubmitOptionsBtn';
 import axios from 'axios';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -47,6 +49,9 @@ const [switchBy, setSwitchBy] = useState([]);
 
 // define state for max time
 const [maxTime, setMaxTime] = useState(null);
+
+// define state for favorites
+const [isFavorite, setIsFavorite] = useState({});
 
 // create click handler function that triggers API call
 
@@ -186,17 +191,34 @@ axios.request(options).then(function (response) {
 
 }).then(data => {
 
+  const toggleFavorite = (id) => {
+    setIsFavorite(prevFavorites => ({
+      ...prevFavorites,
+      [id]: !prevFavorites[id]
+    }));
+  };
+
   ReactDOM.render(data.map(data => {
 
     return (
 
       <div className="recipes">
         <div className="recipeList">
-          <div className="recipeCard">
+          <div id={data.id} className="recipeCard">
             <img src={data.image} alt="hey"/>
             <h2> {data.title} </h2>
             <a href={data.sourceUrl} target="_blank" rel="noreferrer"><button style={{marginBottom: 4 }}>See More</button></a>
             <h5>{data.sourceName}</h5>
+            <Checkbox 
+                icon={<FavoriteBorderIcon />} 
+                checkedIcon={<FavoriteIcon />} 
+                checked={isFavorite[data.id]}
+                onChange={event => {
+                  let callID = event.target.parentElement.parentElement.id;
+                  favouritesAPIcall(callID);
+                  toggleFavorite(callID);
+                }}
+            />
           </div>
         </div>
       </div>
