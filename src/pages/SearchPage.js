@@ -196,7 +196,7 @@ axios.request(options).then(function (response) {
             <img src={data.image} alt="hey"/>
             <h3> {data.title} </h3>
             <a href={data.sourceUrl} target="_blank" rel="noreferrer"><button style={{marginBottom: 4 }}>See More</button></a>
-            <h6>{data.sourceName}</h6>
+            <h4>{data.sourceName}</h4>
           </div>
         </div>
       </div>
