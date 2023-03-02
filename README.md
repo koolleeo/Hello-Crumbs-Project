@@ -45,3 +45,12 @@ When the user clicks on a recipe, the recipe and its information is presented to
 
 ## Screenshot of the page (full-width & mobile version)
 
+Wide-screen view of the Home Page: <br/>
+<img src="https://github.com/ladycosy/Hello-Crumbs-Project/blob/main/src/assets/screenshots/screenshot-homepage-wide.png" alt="page screenshot" width="400"/>
+
+Narrow/Mobile-screen view of the Home Page:<br/>
+<img src="https://github.com/ladycosy/Hello-Crumbs-Project/blob/main/src/assets/screenshots/screenshot-homepage-mobile.png" alt="page screenshot" width="200"/>
+
+---
+
+
