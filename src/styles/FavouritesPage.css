@@ -1,0 +1,15 @@
+.img-div {
+  display: flex;
+  justify-content: center;
+}
+.comingsoon-img {
+  align-self: center;
+  width: 50%;
+  margin-top: 30px;
+  margin-bottom: 90px;
+}
+@media only screen and (max-width: 600px) {
+  .comingsoon-img {
+    width: 70%;
+  }
+}
