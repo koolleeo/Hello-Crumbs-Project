@@ -35,7 +35,7 @@ The search bars are drop-down input field-type that provide suggestions as the u
 When the user clicks on a recipe, the recipe and its information is presented to the user.
 
 ## Link to the Deployed Page
-[Live URL](https:)
+[Live URL](https://unrivaled-muffin-aee7e3.netlify.app/)
 
 ## Link to the Repo
 [GitHub Repo](https://github.com/koolleeo/Hello-Crumbs-Project.git)
