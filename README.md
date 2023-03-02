@@ -31,7 +31,7 @@ When the user clicks on a recipe, the choice is stacked in a pane by the side of
 [Live URL](https:)
 
 ## Link to the Repo
-[GitHub Repo](https://github.com/ladycosy/console-finances.git](https://github.com/koolleeo/Hello-Crumbs-Project.git)
+[GitHub Repo](https://github.com/koolleeo/Hello-Crumbs-Project.git)
 
 ## Screenshot of the page (full-width & mobile version)
 
