@@ -6,6 +6,7 @@
   <br>Hello Crumbs</h1>
   <strong><h4 align="center">Interactive React.js Application</h4></strong>
 <h4 align="center">Find recipes that match your ingredients &amp; waste no more time on looking at ones that you can't easily make</h4>
+</br>
 
 ## Description
 
