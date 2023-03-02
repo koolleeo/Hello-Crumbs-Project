@@ -4,7 +4,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
+  flex-direction: row;
 }
 .recipes h1 {
   text-align: center;
