@@ -288,7 +288,10 @@ const favouritesAPIcall = (id) => {
         <div className="search-container">
           <div className="ingredients-search">
             <h2>Ingredient Search</h2>
-
+            <h5>
+              Input your crumbs here! <br></br>Remember, the more ingredients
+              the better the match
+            </h5>
 {/* Material UI (MUI) components */}
 
 <Stack spacing={3} sx={{ width: 500, marginLeft: 3 }}>
@@ -310,6 +313,10 @@ const favouritesAPIcall = (id) => {
       />
     )}
   />
+
+<h5>
+                Here come the filters!<br></br> You can customize the search to
+                better reflect your preferences</h5>
 
   {/* cuisine */}
 
