@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
+import ComingSoon from "../assets/comingsoon.png";
+import "../styles/FavouritesPage.css";
 
 function FavouritesPage() {
   return (
-    <div>
-      <h1>Hi, Welcome to the Favourites Page !</h1>
-    
-      <p>This is where you can find Favourites items.</p>
+    <div className="img-div">
+      <img className="comingsoon-img" src={ComingSoon} />
     </div>
   );
 }

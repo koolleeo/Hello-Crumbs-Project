@@ -22,7 +22,11 @@ const NavigationBar = (props) => {
       {/* Button used for expanding the navbar on a smaller screen */}
       <div className="toggleButton">
         <div>
-          <img className="logo-mobile" src={Logo} onClick={() => navigate("/")} />
+          <img
+            className="logo-mobile"
+            src={Logo}
+            onClick={() => navigate("/")}
+          />
         </div>
         {/* Function inside the button to set expand state when the button is clicked  */}
         <button
@@ -34,7 +38,7 @@ const NavigationBar = (props) => {
           <ReorderIcon />
         </button>
       </div>
-      <div className="header">
+      <div className="header-nav">
         <div>
           <img className="logo-wide" src={Logo} onClick={() => navigate("/")} />
         </div>
@@ -42,7 +46,7 @@ const NavigationBar = (props) => {
           <Link to="/">Home</Link>
           <Link to="/Search">Search</Link>
           {/* <Link to="/Recipes">Recipes</Link> */}
-          <Link to="/FavouritesPage">Favourites</Link>
+          <Link to="/Favourites">Favourites</Link>
           <Link to="/Contact">Contact</Link>
         </div>
       </div>
