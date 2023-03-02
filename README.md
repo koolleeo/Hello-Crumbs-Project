@@ -3,16 +3,18 @@
   <a><img src="https://github.com/koolleeo/Hello-Crumbs-Project/blob/main/src/assets/logo.png" alt="App Logo" width="180"></a>
   <br>Hello Crumbs</h1>
   <strong><h4 align="center">Interactive React.js Application</h4></strong>
-<h4 align="center">Find recipes that match your ingredients (crumbs) &amp; </br> don't waste time on looking at recipes that you can't easily make</h4>
+<h4 align="center">The app allows you to easily find recipes that match ingredients (crumbs) that you already have</h4>
 </br>
 
 ## Description
 
-Hello Crumbs is a web application which comes handy in many ways, ranging from cubbing wastes to saving time and money, and possibly leading to the discovery of new recipe.
+Hello Crumbs is a web application which comes handy in many ways, ranging from avoiding food waste to saving time and money, and possibly leading to the discovery of new recipe.
 
-Hello Crumbs is an interactive that takes input of ingredients from a user and returns an array of possible recipe based on the ingredients the user submits...
+Hello Crumbs is an interactive app that takes input - list of ingredients - from a user and returns an array of recipes which match the ingredients the user submits. The user can also customize the search by applying filters such as cuisine, type of meal, or select to exclude certain ingredients. 
 
-It is built on high fedelity front-end development technologies such as react.js, npm packages, Material UI and asynchronic api-get protocol...
+The technologies used in app development: ``React.js, NPM, Material UI, BootStrap, CSS, API``.
+
+The app has been deployed on ``Netlify`` platform.
 
 ## User Story
 ```
@@ -24,14 +26,13 @@ SO THAT I don't waste time and energy searching through recipes that don't inclu
 ```
 ## Functionality
 
-On visit to the Hello Crumbs landing page, the user is greated by a welcome message and a concise information (about the app), and presented with a 'Get Started' button.
+On visit to the Hello Crumbs landing page, the user is greated by a welcome message and an information (about the app). There is a step-by-step instruction for the user on how the app works. At the bottom of the Home Page the user find the 'Get Started' button which navigates them to the Search Page.
 
-On clicking the Get Started button, the user is navigated to search page with Search Options
-Search can be made based on the following categories - Ingredient selection, Cuisine, Meal type and Diet definition. Seacrh can also be made based on allergic inclinations and cooking duration...
+Search can be made based on the following categories - Ingredient selection (minimum 3), cuisine, meal type and diet definition. Search can also be made based on food intolerances and cooking duration... 
 
-The search bars are drop-down input field-type that provides suggestions as the user enters the ingredients. The search recipe takes a minimum of 3 ingredients to return a list of recipes.
+The search bars are drop-down input field-type that provide suggestions as the user enters the ingredients. The search recipe takes a minimum of 3 ingredients to return a list of recipes.
 
-When the user clicks on a recipe, the choice is stacked in a pane by the side of the search bar.
+When the user clicks on a recipe, the recipe and its information is presented to the user.
 
 ## Link to the Deployed Page
 [Live URL](https:)
