@@ -9,13 +9,13 @@ Hello Crumbs is an interactive that takes input of ingredients from a user and r
 It is built on high fedelity front-end development technologies such as react.js, npm packages, Material UI and asynchronic api-get protocol...
 
 ## User Story
-
+```
 AS a person that wants to prepare a dish​
-​
-I WANT to easily find a recipe that matches the ingredients I already have at home​
-​
-SO THAT I don't waste time and energy searching through recipes that don't include the ingredients I have at my disposal​
 
+I WANT to easily find a recipe that matches the ingredients I already have at home​
+
+SO THAT I don't waste time and energy searching through recipes that don't include the ingredients I have at my disposal​
+```
 ## Functionality
 
 On visit to the Hello Crumbs landing page, the user is greated by a welcome message and a concise information (about the app), and presented with a 'Get Started' button.
