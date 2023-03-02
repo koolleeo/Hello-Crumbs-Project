@@ -5,7 +5,7 @@
   <a><img src="https://github.com/koolleeo/Hello-Crumbs-Project/blob/main/src/assets/logo.png" alt="App Logo" width="180"></a>
   <br>Hello Crumbs</h1>
   <strong><h4 align="center">Interactive React.js Application</h4></strong>
-<h4 align="center">Find recipes that match your ingredients &amp; </br> don't waste time on looking at ones that you can't easily make</h4>
+<h4 align="center">Find recipes that match your ingredients (crumbs) &amp; </br> don't waste time on looking at recipes that you can't easily make</h4>
 </br>
 
 ## Description
