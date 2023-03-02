@@ -33,5 +33,8 @@ When the user clicks on a recipe, the choice is stacked in a pane by the side of
 ## Link to the Repo
 [GitHub Repo](https://github.com/koolleeo/Hello-Crumbs-Project.git)
 
+## Project presentation 
+[PPT slides](https://studentswncac-my.sharepoint.com/:p:/g/personal/mbi108133_westnotts_ac_uk/EURi3RgBtn1PmsTowAu99UYBRUCEcLufm5VxqKLnaExJUQ?rtime=nFtCpBEb20g)
+
 ## Screenshot of the page (full-width & mobile version)
 
