@@ -1,5 +1,3 @@
-# Hello Crumbs
-
 <h1 align="center"> 
     <br>
   <a><img src="https://github.com/koolleeo/Hello-Crumbs-Project/blob/main/src/assets/logo.png" alt="App Logo" width="180"></a>
