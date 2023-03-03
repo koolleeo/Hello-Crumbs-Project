@@ -191,12 +191,21 @@ axios.request(options).then(function (response) {
 
 }).then(data => {
 
-  const toggleFavorite = (id) => {
-    setIsFavorite(prevFavorites => ({
-      ...prevFavorites,
-      [id]: !prevFavorites[id]
-    }));
-  };
+const toggleFavorite = (event, id) => {
+  event.stopPropagation(); // prevent the card from handling the click event
+
+  setIsFavorite((prevFavorites) => {
+    if (prevFavorites[id]) {
+      const newFavorites = { ...prevFavorites };
+      delete newFavorites[id];
+      removeLocalStorage(id);
+      return newFavorites;
+    } else {
+      favouritesAPIcall(id)
+      return { ...prevFavorites, [id]: true };
+    }
+  });
+};
 
   ReactDOM.render(data.map(data => {
 
@@ -215,8 +224,8 @@ axios.request(options).then(function (response) {
                 checked={isFavorite[data.id]}
                 onChange={event => {
                   let callID = event.target.parentElement.parentElement.id;
-                  favouritesAPIcall(callID);
-                  toggleFavorite(callID);
+                  // favouritesAPIcall(callID);
+                  toggleFavorite(event, callID);
                 }}
             />
           </div>
@@ -280,7 +289,6 @@ const favouritesAPIcall = (id) => {
 
 
 }
-
   
   return (
     <div>
@@ -520,10 +528,8 @@ renderInput={(params) => (
 
           </div>
         </div>
-        <SubmitOptionsButton clickHandler={clickHandler}/>
-        {/* <SubmitOptionsButton clickHandler={favouritesAPIcall(716429)}/> */}
-        
-      </div>
+        <SubmitOptionsButton clickHandler={clickHandler}/>       
+        </div>
 
       <div className="recipes-container">
         <h3>What can you make?</h3>
