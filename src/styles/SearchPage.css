@@ -42,9 +42,10 @@ h5 {
 
 .recipes {
   display: flex;
-  justify-content: space-around;
-  width: 80%;
-  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+  flex-basis: 20%;
+  flex-wrap: wrap;
 }
 
 .recipe {
@@ -73,7 +74,6 @@ h5 {
 }
 
 @media only screen and (max-width: 800px) {
-}
+  }
 
-@media only screen and (max-width: 600px) {
-}
+
